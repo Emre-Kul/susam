@@ -1,0 +1,18 @@
+{
+  "name": "webgl-playground",
+  "version": "1.0.0",
+  "description": "Webgl Playground ",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webgl",
+    "game"
+  ],
+  "author": "Emre Kul",
+  "license": "ISC"
+}
