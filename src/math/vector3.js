@@ -1,4 +1,3 @@
-
 const Vector3 = function () {
     let x = 0;
     let y = 0;
