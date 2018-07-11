@@ -35,3 +35,4 @@ Vector3.prototype.dot = function (vec) {
     return (this.x * vec.x + this.y * vec.y + this.z * vec.z);
 }
 
+module.exports = Vector3;

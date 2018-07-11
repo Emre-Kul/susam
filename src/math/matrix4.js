@@ -57,3 +57,5 @@ Matrix4.prototype.rotateZ = function (angle) {
 }
 
 Matrix4.prototype.rotate = function () { }
+
+module.exports = Matrix4;
