@@ -4,6 +4,10 @@ const Vector3 = function () {
     let z = 0;
 }
 
+Vector3.prototype.create = function(){
+    return new Vector3();
+}
+
 Vector3.prototype.change = function (x, y, z) {
     this.x = x;
     this.y = y;
@@ -33,6 +37,13 @@ Vector3.prototype.normalize = function (vec) {
 
 Vector3.prototype.dot = function (vec) {
     return (this.x * vec.x + this.y * vec.y + this.z * vec.z);
+}
+
+Vector3.substract = function (vec) {
+    const resultVector = Vector3.create();
+    resultVector.x = this.x - vec.x;
+    resultVector.y = this.y - vec.y;
+    return resultVector;
 }
 
 module.exports = Vector3;

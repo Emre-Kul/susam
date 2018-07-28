@@ -4,7 +4,7 @@ module.exports = {
     entry: './index.js',
     devtool: 'source-map',
     target: 'web',
-    mode: 'development',
+    mode: process.env.NODE_ENV || 'development',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
@@ -13,6 +13,18 @@ module.exports = {
         umdNamedDefine: true
     },
     resolve: {
-        extensions: ['.js']
-    }
+        extensions: ['.js', '.ts']
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                loader: "awesome-typescript-loader"
+            },
+            {
+                 test: /\.js$/, 
+                 loader: 'source-map-loader' 
+            }
+        ]
+    },
 };
