@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './index.js',
+    entry: './index.ts',
     devtool: 'source-map',
     target: 'web',
     mode: process.env.NODE_ENV || 'development',

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     init : function( gl, vertexShaderId, fragmentShaderId) {
         var vertShdr;
         var fragShdr;

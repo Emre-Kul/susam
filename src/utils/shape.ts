@@ -1,5 +1,6 @@
+const SQRT_3 = Math.sqrt(3);
 
-module.exports = {
+export default {
     
     rect: function (center, width, height) {
         return [
