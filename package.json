@@ -1,0 +1,24 @@
+{
+  "name": "game-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "watch": "node_modules/.bin/tsc -w",
+    "start:example": "node ./example/index.js",
+    "lint": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts",
+    "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^5.12.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.2.2"
+  }
+}
