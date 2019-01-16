@@ -1,3 +1,4 @@
+
 let main;
 
 const init = function () {
@@ -21,11 +22,7 @@ const init = function () {
 }
 
 const createScene = function(){
-    let vertices = [];
-    for (let i = 1; i < 50; i++) {
-        vertices = glp.Shape.rect([0, 0], 0.05 * i, 0.05 * i).concat(vertices);
-    }
-    return vertices;
+    return glp.Shape.rect(new glp.Vector3(0, 0), 0.05, 0.05)
 }
 
 const render = function (size) {
