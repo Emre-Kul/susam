@@ -11,14 +11,18 @@
     "watch": "node_modules/.bin/tsc -w",
     "start:example": "node ./example/index.js",
     "lint": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts",
-    "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix"
+    "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix",
+    "bundle": "node_modules/.bin/webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "ts-loader": "^5.3.3",
     "tslint": "^5.12.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "webpack": "^4.29.1",
+    "webpack-cli": "^3.2.1"
   }
 }
