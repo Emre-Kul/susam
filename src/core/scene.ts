@@ -1,4 +1,5 @@
 import { CustomWindow } from '../interfaces';
+import Shader from './shader';
 
 export default class Scene {
   private canvas: any;
@@ -13,6 +14,10 @@ export default class Scene {
 
   public init() {
     this.context = this.setupWebGl();
+    this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
+    this.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    const shader = new Shader(this.context, 'vertex-shader', 'fragment-shader');
+    this.context.useProgram(shader.init());
   }
 
   public getContext() {

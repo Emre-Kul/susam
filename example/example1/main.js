@@ -1,18 +1,7 @@
-/*
-let gl;
-
 const init = function () {
-  const canvas = document.getElementById('gl-canvas');
-
-  gl = WebGLUtils.setupWebGL(canvas);
-  if (!gl)
-    alert("Webgl isn't avaliable!");
-
-  gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(1.0, 1.0, 1.0, 1.0);
-
-  const program = glp.Shader.init(gl, 'vertex-shader', 'fragment-shader');
-  gl.useProgram(program);
+  const scene = new GE.Core.Scene('gl-canvas');
+  scene.init();
+  /*
 
   let vertices = [];
   for(let i = 1;i < 50;i++){
@@ -31,14 +20,15 @@ const init = function () {
 
 
   render(vertices.length);
+  */
 }
-
+/*
 const render = function (size) {
   gl.clear(gl.COLOR_BUFFER_BIT);
   for(let i = 0;i < size;i+=4)
     gl.drawArrays(gl.LINE_LOOP, i, 4);
 
 }
-
-window.onload = init;
 */
+window.onload = init;
+
