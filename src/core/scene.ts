@@ -14,14 +14,20 @@ export default class Scene {
 
   public init() {
     this.context = this.setupWebGl();
-    this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
-    this.context.clearColor(1.0, 1.0, 1.0, 1.0);
     const shader = new Shader(this.context, 'vertex-shader', 'fragment-shader');
     this.context.useProgram(shader.init());
+    this.render();
+
   }
 
   public getContext() {
     return this.context;
+  }
+
+  private render() {
+    this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
+    this.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.context.clear(this.context.COLOR_BUFFER_BIT);
   }
 
   private setupWebGl() {
