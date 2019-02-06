@@ -5,7 +5,8 @@ import Camera from './core/camera';
 import Mesh from './core/mesh';
 import MeshRenderer from './core/mesh-renderer';
 import Scene from './core/scene';
-// import Shader from './core/shader';
+import Shader from './core/shader';
+
 // import ShaderLoader from './core/shader-loader';
 import Transform from './core/transform';
 
@@ -21,5 +22,6 @@ export const GE = {
     MeshRenderer,
     Scene,
     Transform,
+    Shader,
   },
 };

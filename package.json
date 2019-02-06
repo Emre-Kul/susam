@@ -7,12 +7,11 @@
     "example": "example"
   },
   "scripts": {
-    "build": "node_modules/.bin/tsc",
-    "watch": "node_modules/.bin/tsc -w",
     "start:example": "node ./example/index.js",
     "lint": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts",
     "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix",
-    "bundle": "node_modules/.bin/webpack"
+    "bundle": "node_modules/.bin/webpack",
+    "bundle:watch": "node_modules/.bin/webpack -w"
   },
   "keywords": [],
   "author": "",
