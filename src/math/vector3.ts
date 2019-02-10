@@ -2,10 +2,10 @@ export default class Vector3 {
   x: number;
   y: number;
   z: number;
-  constructor() {
-    this.x = 0;
-    this.y = 0;
-    this.z = 0;
+  constructor(x: number = 0, y:number = 0, z:number = 0) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 
   static create() {

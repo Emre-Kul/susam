@@ -7,7 +7,7 @@ export default class Transform {
 
   constructor() {
     this.position = new Vector3();
-    this.scale = new Vector3();
+    this.scale = new Vector3(1, 1, 1);
     this.rotate = new Vector3();
   }
 
