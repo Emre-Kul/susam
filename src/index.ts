@@ -6,6 +6,9 @@ import Mesh from './core/mesh';
 import MeshRenderer from './core/mesh-renderer';
 import Scene from './core/scene';
 import Shader from './core/shader';
+import Line from './physics/line';
+import Rectangle from './physics/rectangle';
+import Shape from './physics/shape';
 
 // import ShaderLoader from './core/shader-loader';
 import Transform from './core/transform';
@@ -23,5 +26,10 @@ export const GE = {
     Scene,
     Transform,
     Shader,
+  },
+  Physics: {
+    Shape,
+    Rectangle,
+    Line,
   },
 };

@@ -16,10 +16,10 @@ export default class Rectangle extends Shape{
 
   public createMesh() {
     const vertices : number[] = [
-      0, 0, 0,
-      0.5, 0, 0,
-      0.5, 0.5, 0,
-      0, 0.5, 0,
+      this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, 0,
+      this.center.x + this.size.x / 2, this.center.y - this.size.y / 2, 0,
+      this.center.x + this.size.x / 2, this.center.y + this.size.y / 2, 0,
+      this.center.x - this.size.x / 2, this.center.y + this.size.y / 2, 0,
     ];
     this.mesh = new Mesh(vertices);
   }

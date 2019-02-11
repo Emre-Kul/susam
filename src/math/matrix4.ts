@@ -57,4 +57,12 @@ export default class Matrix4 {
             [0, 0, 0, 1],
     ];
   }
+
+  static flatten(mtr: any) {
+    let arr: any[] = [];
+    mtr.forEach((elem : any) => {
+      arr = arr.concat(elem);
+    });
+    return arr;
+  }
 }
