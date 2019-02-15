@@ -39,7 +39,7 @@ export default class MeshRenderer {
                                          Matrix4.flatten(this.mesh.transform.modelMatrix));
     this.shader.context.clear(this.shader.context.COLOR_BUFFER_BIT);
 
-    this.shader.context.drawElements(this.shader.context.LINE_LOOP,
+    this.shader.context.drawElements(this.shader.context.TRIANGLES,
                                      this.mesh.indices.length,
                                      this.shader.context.UNSIGNED_SHORT,
                                      0);
