@@ -15,12 +15,19 @@ export default class Rectangle extends Shape{
   }
 
   public createMesh() {
+    const c = this.center;
+    const s = this.size;
+
     const vertices : number[] = [
-      this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, 0,
-      this.center.x + this.size.x / 2, this.center.y - this.size.y / 2, 0,
-      this.center.x + this.size.x / 2, this.center.y + this.size.y / 2, 0,
-      this.center.x - this.size.x / 2, this.center.y + this.size.y / 2, 0,
+      c.x - s.x / 2, c.y + s.y / 2, c.z,
+      c.x - s.x / 2, c.y - s.y / 2, c.z,
+      c.x + s.x / 2, c.y - s.y / 2, c.z,
+      c.x + s.x / 2, c.y + s.y / 2, c.z,
+
     ];
-    this.mesh = new Mesh(vertices);
+
+    const indices: number[] = [0, 1, 2, 3];
+
+    this.mesh = new Mesh(vertices, indices);
   }
 }

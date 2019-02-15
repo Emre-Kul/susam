@@ -9,6 +9,7 @@ import Shader from './core/shader';
 import Line from './physics/line';
 import Rectangle from './physics/rectangle';
 import Shape from './physics/shape';
+import Cube from './physics/cube';
 
 // import ShaderLoader from './core/shader-loader';
 import Transform from './core/transform';
@@ -31,5 +32,6 @@ export const GE = {
     Shape,
     Rectangle,
     Line,
+    Cube,
   },
 };

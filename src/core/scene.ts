@@ -15,6 +15,7 @@ export default class Scene {
     this.context = this.setupWebGl();
     this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
     this.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.context.enable(this.context.DEPTH_TEST);
     this.context.clear(this.context.COLOR_BUFFER_BIT);
 
   }
