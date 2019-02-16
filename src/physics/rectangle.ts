@@ -28,6 +28,7 @@ export default class Rectangle extends Shape{
 
     const indices: number[] = [3, 2, 1, 3, 1, 0];
 
-    this.mesh = new Mesh(vertices, indices);
+    const transform = new Transform(new Vector3(0.1, 0 , 0));
+    this.mesh = new Mesh(vertices, indices, transform);
   }
 }

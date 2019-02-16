@@ -8,16 +8,21 @@ export default class Transform {
 
   public modelMatrix: any;
 
-  constructor() {
-    this.position = new Vector3();
-    this.scale = new Vector3(1, 1, 1);
-    this.rotate = new Vector3();
+  constructor(position: Vector3 = new Vector3(),
+              scale: Vector3 = new Vector3(1, 1, 1),
+              rotate: Vector3 = new Vector3(),
+  ) {
+    this.position = position;
+    this.scale = scale;
+    this.rotate = rotate;
     this.modelMatrix = null;
   }
 
   calcModelMatrix() {
-    const matrix = new Matrix4();
-    this.modelMatrix = matrix.unit();
+    const scaleMtr = Matrix4.scale(this.scale);
+    const translateMtr = Matrix4.translate(this.position);
+    this.modelMatrix = Matrix4.multiply([scaleMtr, translateMtr]);
+    console.log(this.modelMatrix);
   }
 
 }

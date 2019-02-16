@@ -12,7 +12,7 @@
         uniform mat4 uModel;
 
         void main() {
-            gl_Position = uModel * vPosition;
+            gl_Position = uModel * vec4(vPosition.x, vPosition.y, vPosition.z, 1.0);
             }
     </script>
 

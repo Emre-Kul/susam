@@ -18,60 +18,27 @@ export default class Cube extends Shape{
     const c = this.center;
     const s = this.size;
 
-    /*
-    const cubeCords = [
-      vec4(-1, -1, 1, 1),
-      vec4(-1, 1, 1, 1),
-      vec4(1, 1, 1, 1),
-      vec4(1, -1, 1, 1),
-      vec4(-1, -1, -1, 1),
-      vec4(-1, 1, -1, 1),
-      vec4(1, 1, -1, 1),
-      vec4(1, -1, -1, 1)
+    const vertices: number[] = [
+      c.x - s.x / 2, c.y - s.y / 2, c.z + s.z / 2,
+      c.x - s.x / 2, c.y + s.y / 2, c.z + s.z / 2,
+      c.x + s.x / 2, c.y + s.y / 2, c.z + s.z / 2,
+      c.x + s.x / 2, c.y - s.y / 2, c.z + s.z / 2,
+      c.x - s.x / 2, c.y - s.y / 2, c.z - s.z / 2,
+      c.x - s.x / 2, c.y + s.y / 2, c.z - s.z / 2,
+      c.x + s.x / 2, c.y + s.y / 2, c.z - s.z / 2,
+      c.x + s.x / 2, c.y - s.y / 2, c.z - s.z / 2,
     ];
-    const cubeIndices = [
-      //a, b, c, a, c, d
+
+    const indices: number[] = [
       1, 0, 3, 1, 3, 2,
       2, 3, 7, 2, 7, 6,
       3, 0, 4, 3, 4, 7,
       6, 5, 1, 6, 1, 2,
       4, 5, 6, 4, 6, 7,
-      5, 4, 0, 5, 0, 1
+      5, 4, 0, 5, 0, 1,
     ];
-    */
 
-    const vertices : number[] = [
-        // front
-      c.x - s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y + s.y / 2, 0,
-      c.x - s.x / 2, c.y + s.y / 2, 0,
-        // back
-      c.x - s.x / 4, c.y - s.y / 4, c.z - s.z / 2,
-      c.x + s.x / 4, c.y - s.y / 4, c.z - s.z / 2,
-      c.x + s.x / 4, c.y + s.y / 4, c.z - s.z / 2,
-      c.x - s.x / 4, c.y + s.y / 4, c.z - s.z / 2,
-        // top
-      c.x - s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y + s.y / 2, 0,
-      c.x - s.x / 2, c.y + s.y / 2, 0,
-        // bottom
-      c.x - s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y + s.y / 2, 0,
-      c.x - s.x / 2, c.y + s.y / 2, 0,
-        // right
-      c.x - s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y + s.y / 2, 0,
-      c.x - s.x / 2, c.y + s.y / 2, 0,
-        // left
-      c.x - s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y - s.y / 2, 0,
-      c.x + s.x / 2, c.y + s.y / 2, 0,
-      c.x - s.x / 2, c.y + s.y / 2, 0,
-    ];
-    this.mesh = new Mesh(vertices);
+    const transform = new Transform(new Vector3(0, 0 , 0), new Vector3(0.6, 0.6, 0.6));
+    this.mesh = new Mesh(vertices, indices, transform);
   }
 }
