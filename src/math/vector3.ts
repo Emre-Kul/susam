@@ -2,14 +2,15 @@ export default class Vector3 {
   x: number;
   y: number;
   z: number;
+
   constructor(x: number = 0, y:number = 0, z:number = 0) {
     this.x = x;
     this.y = y;
     this.z = z;
   }
 
-  static create() {
-    return new Vector3();
+  static create(x: number = 0, y: number = 0, z: number = 0) {
+    return new Vector3(x, y, z);
   }
 
   change(x: number, y: number, z: number) {
@@ -34,13 +35,9 @@ export default class Vector3 {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
-  normalize(vec: Vector3) {
+  normalize() {
     const length = this.length();
-    this.change(vec.x / length, vec.y / length, vec.z / length);
-  }
-
-  dot(vec: Vector3) {
-    return (this.x * vec.x + this.y * vec.y + this.z * vec.z);
+    this.change(this.x / length, this.y / length, this.z / length);
   }
 
   substract(vec: Vector3) {
@@ -50,4 +47,16 @@ export default class Vector3 {
     return resultVector;
   }
 
+  static dot(vec1: Vector3, vec2: Vector3): number {
+    return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
+  }
+
+  // https://www.mathsisfun.com/algebra/vectors-cross-product.html
+  static cross(a: Vector3, b: Vector3): Vector3 {
+    const crossProduct = new Vector3();
+    crossProduct.x = a.y * b.z - a.z * b.y;
+    crossProduct.y = a.z * b.x - a.x * b.z;
+    crossProduct.z = a.x * b.y - a.y * b.x;
+    return crossProduct;
+  }
 }

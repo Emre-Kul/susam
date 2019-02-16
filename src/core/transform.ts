@@ -22,7 +22,6 @@ export default class Transform {
     const scaleMtr = Matrix4.scale(this.scale);
     const translateMtr = Matrix4.translate(this.position);
     this.modelMatrix = Matrix4.multiply([scaleMtr, translateMtr]);
-    console.log(this.modelMatrix);
   }
 
 }
