@@ -19,6 +19,12 @@ export default class Vector3 {
     this.z = z;
   }
 
+  negate() {
+    this.x = 0 - this.x;
+    this.y = 0 - this.y;
+    this.z = 0 - this.z;
+  }
+
   changeX(x: number) {
     this.x = x;
   }
@@ -40,20 +46,21 @@ export default class Vector3 {
     this.change(this.x / length, this.y / length, this.z / length);
   }
 
-  substract(vec: Vector3) {
-    const resultVector: Vector3 = Vector3.create();
-    resultVector.x = this.x - vec.x;
-    resultVector.y = this.y - vec.y;
-    return resultVector;
-  }
-
   static dot(vec1: Vector3, vec2: Vector3): number {
     return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
   }
 
+  static subtract(vec1: Vector3, vec2: Vector3): Vector3 {
+    const resultVector: Vector3 = Vector3.create();
+    resultVector.x = vec1.x - vec2.x;
+    resultVector.y = vec1.y - vec2.y;
+    resultVector.z = vec1.z - vec2.z;
+    return resultVector;
+  }
+
   // https://www.mathsisfun.com/algebra/vectors-cross-product.html
   static cross(a: Vector3, b: Vector3): Vector3 {
-    const crossProduct = new Vector3();
+    const crossProduct = Vector3.create();
     crossProduct.x = a.y * b.z - a.z * b.y;
     crossProduct.y = a.z * b.x - a.x * b.z;
     crossProduct.z = a.x * b.y - a.y * b.x;

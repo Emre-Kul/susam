@@ -6,12 +6,15 @@ export default class MeshRenderer {
 
   public shader: Shader;
   public mesh: Mesh;
+  public viewMtr: Matrix4;
 
   private locationModelMtr: any;
+  private locationViewMtr: any;
 
-  constructor(mesh: Mesh, shader: Shader) {
+  constructor(mesh: Mesh, shader: Shader, viewMtr: Matrix4) {
     this.mesh = mesh;
     this.shader = shader;
+    this.viewMtr = viewMtr;
   }
 
   init() {
@@ -30,13 +33,22 @@ export default class MeshRenderer {
     this.shader.context.enableVertexAttribArray(vPos);
 
     this.locationModelMtr  = this.shader.context.getUniformLocation(this.shader.program, 'uModel');
+    this.locationViewMtr  = this.shader.context.getUniformLocation(this.shader.program, 'uView');
   }
 
   render() {
     this.shader.context.useProgram(this.shader.program);
+
+    // console.log(this.viewMtr.multiply(this.mesh.transform.modelMatrix));
+
     this.shader.context.uniformMatrix4fv(this.locationModelMtr,
                                          false,
-                                         Matrix4.flatten(this.mesh.transform.modelMatrix));
+                                         Matrix4.flatten(this.mesh.transform.modelMatrix.matrix));
+
+    this.shader.context.uniformMatrix4fv(this.locationViewMtr,
+                                         false,
+                                         Matrix4.flatten(this.viewMtr.matrix));
+
     this.shader.context.clear(this.shader.context.COLOR_BUFFER_BIT);
 
     this.shader.context.drawElements(this.shader.context.TRIANGLES,

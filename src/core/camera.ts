@@ -9,26 +9,29 @@ export default class Camera {
 
   public viewMatrix: any;
 
-  constructor(target: Vector3, up: Vector3, position: Vector3 = new Vector3()) {
+  constructor(target: Vector3 = Vector3.create(0, 0, -5),
+              up: Vector3 = Vector3.create(0, 1, 0),
+              position: Vector3 = new Vector3(0, 0, 5)) {
     this.position = position;
     this.target = target;
     this.up = up;
     this.viewMatrix = null;
   }
 
-  // http://webglfactory.blogspot.com/2011/06/how-to-create-view-matrix.html
-  lookAt() {
+  // https://github.com/Emre-Kul/YTU-WEBGL/blob/master/Common/MV.js#L434
+  calculateView() {
     const p = this.position;
     const t = this.target;
-    const vz = new Vector3(p.x - t.x, p.y - t.y, p.z - t.z);
-    vz.normalize();
-    const vx = Vector3.cross(this.up, vz);
-    vx.normalize();
-    const vy = Vector3.cross(vx, vz);
-    const mtr = Matrix4.create(Vector4.create(vx),
-                               Vector4.create(vy),
-                               Vector4.create(vz),
-                               Vector4.create(this.position, 1));
-    this.viewMatrix = mtr; // will inverse
+    const v = Vector3.subtract(p, t);
+    v.normalize();
+    const n = Vector3.cross(this.up, v);
+    n.normalize();
+    const u = Vector3.cross(n, v);
+    u.normalize();
+    v.negate();
+    this.viewMatrix = Matrix4.create(Vector4.create(n, - Vector3.dot(n, p)),
+                                     Vector4.create(u, - Vector3.dot(u, p)),
+                                     Vector4.create(v, - Vector3.dot(v, p)),
+                                     Vector4.create());
   }
 }

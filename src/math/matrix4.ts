@@ -16,7 +16,10 @@ export default class Matrix4 {
     ];
   }
 
-  static create(vec1: Vector4, vec2: Vector4, vec3: Vector4, vec4: Vector4): Matrix4 {
+  static create(vec1: Vector4 = Vector4.create(Vector3.create(1)),
+                vec2: Vector4 = Vector4.create(Vector3.create(0, 1)),
+                vec3: Vector4 = Vector4.create(Vector3.create(0, 0, 1)),
+                vec4: Vector4 = Vector4.create(Vector3.create(), 1)): Matrix4 {
     return new Matrix4(vec1, vec2, vec3, vec4);
   }
 
@@ -29,17 +32,31 @@ export default class Matrix4 {
     ];
   }
 
+  multiply(mtr: Matrix4) {
+    const t = Matrix4.create();
+    const u = this.matrix;
+    const v = mtr.matrix;
+    t.matrix = [];
+    for (let i = 0; i < 4; ++i) {
+      t.matrix.push([]);
 
-  static multiply(matrices: any) {
-    return matrices[1];
+      for (let j = 0; j < 4; ++j) {
+        let sum = 0.0;
+        for (let k = 0; k < 4; ++k) {
+          sum += u[i][k] * v[k][j];
+        }
+        t.matrix[i].push(sum);
+      }
+    }
+    return t;
   }
 
-  static translate(vec: Vector3) {
-    return [
-            [1, 0, 0, vec.x],
-            [0, 1, 0, vec.y],
-            [0, 0, 1, vec.z],
-            [0, 0, 0, 1],
+  translate(vec: Vector3) {
+    this.matrix = [
+      [1, 0, 0, vec.x],
+      [0, 1, 0, vec.y],
+      [0, 0, 1, vec.z],
+      [0, 0, 0, 1],
     ];
   }
 

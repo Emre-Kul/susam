@@ -6,7 +6,7 @@ export default class Transform {
   public scale : Vector3;
   public rotate : Vector3;
 
-  public modelMatrix: any;
+  public modelMatrix: Matrix4;
 
   constructor(position: Vector3 = new Vector3(),
               scale: Vector3 = new Vector3(1, 1, 1),
@@ -15,13 +15,14 @@ export default class Transform {
     this.position = position;
     this.scale = scale;
     this.rotate = rotate;
-    this.modelMatrix = null;
+    this.modelMatrix = Matrix4.create();
   }
 
   calcModelMatrix() {
-    const scaleMtr = Matrix4.scale(this.scale);
-    const translateMtr = Matrix4.translate(this.position);
-    this.modelMatrix = Matrix4.multiply([scaleMtr, translateMtr]);
+    // const scaleMtr = Matrix4.scale(this.scale);
+    const mtr = Matrix4.create();
+    mtr.translate(this.position);
+    this.modelMatrix = mtr;
   }
 
 }

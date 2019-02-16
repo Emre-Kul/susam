@@ -13,7 +13,7 @@ export default class Vector4 {
     this.w = w;
   }
 
-  static create(vec: Vector3, w:number = 0) {
+  static create(vec: Vector3 = Vector3.create(), w:number = 0) {
     return new Vector4(vec, w);
   }
 }
