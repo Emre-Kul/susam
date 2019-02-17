@@ -32,10 +32,10 @@ export default class Matrix4 {
     ];
   }
 
-  multiply(mtr: Matrix4) {
+  static multiply(mtr1: Matrix4, mtr2: Matrix4) {
     const t = Matrix4.create();
-    const u = this.matrix;
-    const v = mtr.matrix;
+    const u = mtr1.matrix;
+    const v = mtr2.matrix;
     t.matrix = [];
     for (let i = 0; i < 4; ++i) {
       t.matrix.push([]);
@@ -51,6 +51,14 @@ export default class Matrix4 {
     return t;
   }
 
+  static flatten(mtr: any) {
+    let arr: any[] = [];
+    mtr.forEach((elem : any) => {
+      arr = arr.concat(elem);
+    });
+    return arr;
+  }
+
   translate(vec: Vector3) {
     this.matrix = [
       [1, 0, 0, vec.x],
@@ -60,20 +68,12 @@ export default class Matrix4 {
     ];
   }
 
-  static scale(vec: Vector3) {
-    return [
-            [vec.x, 0, 0, 0],
-            [0, vec.y, 0, 0],
-            [0, 0, vec.z, 0],
-            [0, 0, 0, 1],
+  scale(vec: Vector3) {
+    this.matrix = [
+      [vec.x, 0, 0, 0],
+      [0, vec.y, 0, 0],
+      [0, 0, vec.z, 0],
+      [0, 0, 0, 1],
     ];
-  }
-
-  static flatten(mtr: any) {
-    let arr: any[] = [];
-    mtr.forEach((elem : any) => {
-      arr = arr.concat(elem);
-    });
-    return arr;
   }
 }

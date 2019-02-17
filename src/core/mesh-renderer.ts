@@ -21,9 +21,10 @@ export default class MeshRenderer {
   }
 
   init() {
-    this.mesh.transform.calcModelMatrix();
+    this.mesh.transform.createModelMatrix();
     this.shader.load();
 
+    console.log(this.mesh.transform.modelMatrix.matrix);
     this.bindBufferData(this.shader.context.ARRAY_BUFFER,
                         this.shader.context,
                         new Float32Array(this.mesh.vertices));
@@ -54,16 +55,7 @@ export default class MeshRenderer {
     this.shader.context.uniformMatrix4fv(this.locationProjectionMtr,
                                          false,
                                          Matrix4.flatten(this.projectionMtr.matrix));
-/*
-    console.log("modelMatrix : ");
-    console.log(this.mesh.transform.modelMatrix.matrix);
-    console.log("viewMtr : ");
-    console.log(this.viewMtr.matrix);
-    console.log("projectionMtr : ");
-    console.log(this.projectionMtr.matrix);
-    console.log("p*v");
-    console.log(this.projectionMtr.multiply(this.viewMtr).matrix);
-*/
+
     this.shader.context.clearColor(1.0, 1.0, 1.0, 1.0);
     this.shader.context.clearDepth(1.0);
     this.shader.context.enable(this.shader.context.DEPTH_TEST);

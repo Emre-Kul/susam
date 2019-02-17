@@ -18,11 +18,14 @@ export default class Transform {
     this.modelMatrix = Matrix4.create();
   }
 
-  calcModelMatrix() {
-    const mtr = Matrix4.create();
-    mtr.translate(this.position);
-    this.modelMatrix = mtr;
-    console.log(mtr.matrix);
+  createModelMatrix() {
+    const t = Matrix4.create();
+    const s = Matrix4.create();
+
+    t.translate(this.position);
+    s.scale(this.scale);
+
+    this.modelMatrix = Matrix4.multiply(s, t);
   }
 
 }

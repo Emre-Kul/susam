@@ -1,48 +1,55 @@
-let shader, cube, camera;
+let shader, cube, scene;
 
 const init = function () {
-  camera = new GE.Core.Camera();
-  const scene = new GE.Core.Scene('gl-canvas');
+  scene = new GE.Core.Scene();
   scene.init();
-  shader = new GE.Core.Shader(scene.context, "vertex-shader", "fragment-shader");
+  shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");
   cube = new GE.Physics.Cube();
   cube.createMesh();
-  camera.calculatePV();
-  render("t");
+  render({ key: "t"});
 };
 
 const render = (e) => {
- let x,y,z;
- x = 0;
- y = 0;
- z = 0;
-
+ let px,py,pz,s;
+ px = 0;
+ py = 0;
+ pz = 0;
+ s = 0.1;
+ const translateSpeed = 0.1;
+ const scaleSpeed = 0.1;
  if(e.key === "a"){
-   x = -0.01;
+   px = -translateSpeed;
  }
  if(e.key === "d"){
-   x = 0.01;
+   px = translateSpeed;
  }
  if(e.key === "z"){
-   z = -0.01;
+   pz = -translateSpeed;
  }
  if(e.key === "x"){
-   z = 0.01;
+   pz = translateSpeed;
  }
  if(e.key === "w") {
-  y = 0.01;
+  py = translateSpeed;
  }
  if(e.key === "s"){
-   y = -0.01;
+   py = -translateSpeed;
  }
- console.log(e.key);
+ if(e.key === "r"){
+  s = scaleSpeed;
+ }
+ if(e.key === "f"){
+  s = -scaleSpeed;
+ }
  cube.mesh.transform.position = GE.Math.Vector3.create(
-   cube.mesh.transform.position.x + x,
-   cube.mesh.transform.position.y + y,
-   cube.mesh.transform.position.z + z);
- cube.mesh.transform.calcModelMatrix();
- console.log(cube.mesh.transform.modelMatrix);
- let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, camera.viewMatrix, camera.projectionMtr);
+   cube.mesh.transform.position.x + px,
+   cube.mesh.transform.position.y + py,
+   cube.mesh.transform.position.z + pz
+ );
+ // SCALE TEST
+ cube.mesh.transform.scale = GE.Math.Vector3.create(cube.mesh.transform.scale.x + s, cube.mesh.transform.scale.y + s, cube.mesh.transform.scale.z + s);
+
+ let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
  meshRenderer.init();
  meshRenderer.render();
 };

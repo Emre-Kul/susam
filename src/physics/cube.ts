@@ -57,8 +57,6 @@ export default class Cube extends Shape{
       20, 21, 22,     20, 22, 23,   // left
     ];
 
-    const transform = new Transform(new Vector3(0, 0, 0));
-    transform.calcModelMatrix();
-    this.mesh = new Mesh(vertices, indices, transform);
+    this.mesh = new Mesh(vertices, indices, new Transform());
   }
 }
