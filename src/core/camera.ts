@@ -8,10 +8,12 @@ export default class Camera {
   public position: Vector3;
 
   public viewMatrix: any;
+  public projectionMtr: any;
 
-  constructor(target: Vector3 = Vector3.create(0, 0, -5),
+  constructor(position: Vector3 = new Vector3(4, 3, 3),
+              target: Vector3 = Vector3.create(0, 0, 0),
               up: Vector3 = Vector3.create(0, 1, 0),
-              position: Vector3 = new Vector3(0, 0, 5)) {
+              ) {
     this.position = position;
     this.target = target;
     this.up = up;
@@ -33,5 +35,19 @@ export default class Camera {
                                      Vector4.create(u, - Vector3.dot(u, p)),
                                      Vector4.create(v, - Vector3.dot(v, p)),
                                      Vector4.create());
+  }
+  // https://github.com/Emre-Kul/YTU-WEBGL/blob/master/Common/MV.js#L496
+  calculateProjection(fovy: number = 45, aspect: number = 1, near: number = -10, far: number = 100) {
+    this.projectionMtr = Matrix4.create();
+    const f = 1.0 / Math.tan((fovy * Math.PI / 180.0) / 2);
+    const d = far - near;
+
+    this.projectionMtr.matrix[0][0] = f / aspect;
+    this.projectionMtr.matrix[1][1] = f;
+    this.projectionMtr.matrix[2][2] = -(near + far) / d;
+    this.projectionMtr.matrix[2][3] = -2 * near * far / d;
+    this.projectionMtr.matrix[3][2] = -1;
+    this.projectionMtr.matrix[3][3] = 0.0;
+    console.log(this.projectionMtr.matrix);
   }
 }
