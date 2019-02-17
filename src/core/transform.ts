@@ -19,10 +19,10 @@ export default class Transform {
   }
 
   calcModelMatrix() {
-    // const scaleMtr = Matrix4.scale(this.scale);
     const mtr = Matrix4.create();
     mtr.translate(this.position);
     this.modelMatrix = mtr;
+    console.log(mtr.matrix);
   }
 
 }

@@ -9,7 +9,7 @@ export default class Rectangle extends Shape{
 
   constructor(center: Vector3 = new Vector3(),
               size: Vector3 = new Vector3(1, 1, 1)) {
-    super(new Transform());
+    super();
     this.center = center;
     this.size = size;
   }

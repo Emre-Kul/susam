@@ -54,8 +54,21 @@ export default class MeshRenderer {
     this.shader.context.uniformMatrix4fv(this.locationProjectionMtr,
                                          false,
                                          Matrix4.flatten(this.projectionMtr.matrix));
-
+/*
+    console.log("modelMatrix : ");
+    console.log(this.mesh.transform.modelMatrix.matrix);
+    console.log("viewMtr : ");
+    console.log(this.viewMtr.matrix);
+    console.log("projectionMtr : ");
+    console.log(this.projectionMtr.matrix);
+    console.log("p*v");
+    console.log(this.projectionMtr.multiply(this.viewMtr).matrix);
+*/
+    this.shader.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.shader.context.clearDepth(1.0);
+    this.shader.context.enable(this.shader.context.DEPTH_TEST);
     this.shader.context.clear(this.shader.context.COLOR_BUFFER_BIT);
+    this.shader.context.depthFunc(this.shader.context.LEQUAL);
 
     this.shader.context.drawElements(this.shader.context.TRIANGLES,
                                      this.mesh.indices.length,

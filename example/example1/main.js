@@ -1,19 +1,53 @@
+let shader, cube, camera;
+
 const init = function () {
-  const camera = new GE.Core.Camera();
+  camera = new GE.Core.Camera();
   const scene = new GE.Core.Scene('gl-canvas');
   scene.init();
-  const shader = new GE.Core.Shader(scene.context, "vertex-shader", "fragment-shader");
-  const rec = new GE.Physics.Rectangle();
-  const cube = new GE.Physics.Cube(GE.Math.Vector3.create(0, 0, 1));
-  rec.createMesh();
+  shader = new GE.Core.Shader(scene.context, "vertex-shader", "fragment-shader");
+  cube = new GE.Physics.Cube();
   cube.createMesh();
-  camera.calculateView();
-  camera.calculateProjection();
-  let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, camera.viewMatrix, camera.projectionMtr);
-  meshRenderer.init();
-  meshRenderer.render();
+  camera.calculatePV();
+  render("t");
 };
 
+const render = (e) => {
+ let x,y,z;
+ x = 0;
+ y = 0;
+ z = 0;
+
+ if(e.key === "a"){
+   x = -0.01;
+ }
+ if(e.key === "d"){
+   x = 0.01;
+ }
+ if(e.key === "z"){
+   z = -0.01;
+ }
+ if(e.key === "x"){
+   z = 0.01;
+ }
+ if(e.key === "w") {
+  y = 0.01;
+ }
+ if(e.key === "s"){
+   y = -0.01;
+ }
+ console.log(e.key);
+ cube.mesh.transform.position = GE.Math.Vector3.create(
+   cube.mesh.transform.position.x + x,
+   cube.mesh.transform.position.y + y,
+   cube.mesh.transform.position.z + z);
+ cube.mesh.transform.calcModelMatrix();
+ console.log(cube.mesh.transform.modelMatrix);
+ let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, camera.viewMatrix, camera.projectionMtr);
+ meshRenderer.init();
+ meshRenderer.render();
+};
+
+document.onkeydown = render;
 
 window.onload = init;
 
