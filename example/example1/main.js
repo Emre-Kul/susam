@@ -1,5 +1,5 @@
-let shader, cube, scene;
-
+let shader, cube, scene,s;
+s = -0.5;
 const init = function () {
   scene = new GE.Core.Scene();
   scene.init();
@@ -10,11 +10,11 @@ const init = function () {
 };
 
 const render = (e) => {
- let px,py,pz,s;
+ let px,py,pz;
  px = 0;
  py = 0;
  pz = 0;
- s = 0.1;
+
  const translateSpeed = 0.1;
  const scaleSpeed = 0.1;
  if(e.key === "a"){
@@ -36,10 +36,10 @@ const render = (e) => {
    py = -translateSpeed;
  }
  if(e.key === "r"){
-  s = scaleSpeed;
+  s += scaleSpeed;
  }
  if(e.key === "f"){
-  s = -scaleSpeed;
+  s -= scaleSpeed;
  }
  cube.mesh.transform.position = GE.Math.Vector3.create(
    cube.mesh.transform.position.x + px,
@@ -47,7 +47,7 @@ const render = (e) => {
    cube.mesh.transform.position.z + pz
  );
  // SCALE TEST
- cube.mesh.transform.scale = GE.Math.Vector3.create(cube.mesh.transform.scale.x + s, cube.mesh.transform.scale.y + s, cube.mesh.transform.scale.z + s);
+ cube.mesh.transform.scale = GE.Math.Vector3.create(s, s, s);
 
  let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
  meshRenderer.init();

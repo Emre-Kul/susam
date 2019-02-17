@@ -25,7 +25,7 @@ export default class Transform {
     t.translate(this.position);
     s.scale(this.scale);
 
-    this.modelMatrix = Matrix4.multiply(s, t);
+    this.modelMatrix = Matrix4.multiply(t, s);
   }
 
 }
