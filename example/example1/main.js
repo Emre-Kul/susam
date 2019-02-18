@@ -1,6 +1,7 @@
 let shader, cube, scene,s;
 s = -0.5;
 const init = function () {
+
   scene = new GE.Core.Scene();
   scene.init();
   shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");

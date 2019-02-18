@@ -1,6 +1,7 @@
 import Shader from './shader';
 import Mesh from './mesh';
 import Matrix4 from '../math/matrix4';
+import Color from '../graphics/color';
 
 export default class MeshRenderer {
 
@@ -12,6 +13,7 @@ export default class MeshRenderer {
   private locationModelMtr: any;
   private locationViewMtr: any;
   private locationProjectionMtr: any;
+  private locationColor: any;
 
   constructor(mesh: Mesh, shader: Shader, viewMtr: Matrix4, projectionMtr: Matrix4) {
     this.mesh = mesh;
@@ -35,7 +37,7 @@ export default class MeshRenderer {
     this.locationModelMtr  = this.shader.getUniformLocation('uModel');
     this.locationViewMtr  = this.shader.getUniformLocation('uView');
     this.locationProjectionMtr  = this.shader.getUniformLocation('uProjection');
-
+    this.locationColor = this.shader.getUniformLocation('uColor');
     /* Will Clear */
     this.shader.context.clearColor(1.0, 1.0, 1.0, 1.0);
     this.shader.context.clearDepth(1.0);
@@ -44,11 +46,14 @@ export default class MeshRenderer {
   }
 
   render() {
+    const color = new Color();
+    color.setBlue();
     this.shader.prepareDraw();
 
-    this.shader.setUniform(this.locationModelMtr, this.mesh.transform.modelMatrix);
-    this.shader.setUniform(this.locationViewMtr, this.viewMtr);
-    this.shader.setUniform(this.locationProjectionMtr, this.projectionMtr);
+    this.shader.setUniformMtr4(this.locationModelMtr, this.mesh.transform.modelMatrix);
+    this.shader.setUniformMtr4(this.locationViewMtr, this.viewMtr);
+    this.shader.setUniformMtr4(this.locationProjectionMtr, this.projectionMtr);
+    this.shader.setUniformVec4(this.locationColor, color.code);
 
     this.shader.draw(this.mesh.indices.length);
   }

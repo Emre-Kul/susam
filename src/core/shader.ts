@@ -1,4 +1,5 @@
 import Matrix4 from '../math/matrix4';
+import Vector4 from '../math/vector4';
 
 export default class Shader {
   public context: any;
@@ -45,9 +46,13 @@ export default class Shader {
     return this.context.getUniformLocation(this.program, name);
   }
 
-  setUniform(location: any, mtr: Matrix4) {
+  setUniformMtr4(location: any, mtr: Matrix4) {
     const data = Matrix4.flatten(Matrix4.transpose(mtr));
     this.context.uniformMatrix4fv(location, false, data);
+  }
+
+  setUniformVec4(location: any, data: Vector4) {
+    this.context.uniform4fv(location, [data.x, data.y, data.z, data.w]);
   }
 
   prepareDraw() {

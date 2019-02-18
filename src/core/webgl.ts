@@ -15,11 +15,13 @@ export default class WebGL {
   public init() {
     this.canvas = document.getElementById(this.canvasId);
     this.setup();
+    this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
   }
 
   private setup() {
     if (!(window as CustomWindow).WebGLRenderingContext) {
       this.context = null;
+      return;
     }
     this.create3DContext();
     if (!this.context) {
