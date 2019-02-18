@@ -1,3 +1,5 @@
+import Matrix4 from '../math/matrix4';
+
 export default class Shader {
   public context: any;
   public vertexShaderId: string;
@@ -41,6 +43,20 @@ export default class Shader {
 
   getUniformLocation(name: string) {
     return this.context.getUniformLocation(this.program, name);
+  }
+
+  setUniform(location: any, mtr: Matrix4) {
+    const data = Matrix4.flatten(Matrix4.transpose(mtr));
+    this.context.uniformMatrix4fv(location, false, data);
+  }
+
+  prepareDraw() {
+    this.context.useProgram(this.program);
+    this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
+  }
+
+  draw(length: number) {
+    this.context.drawElements(this.context.TRIANGLES, length, this.context.UNSIGNED_SHORT, 0);
   }
 
   private loadShader(id: string, type: any) {
