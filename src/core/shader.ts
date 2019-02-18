@@ -10,19 +10,11 @@ export default class Shader {
     this.fragmentShaderId = fragmentShaderId;
   }
 
-  public load() {
-    const vertexShader = this.loadShader(
-        this.vertexShaderId,
-        'vertex',
-        this.context.VERTEX_SHADER,
-    );
-    const fragmentShader = this.loadShader(
-        this.fragmentShaderId,
-        'fragment',
-        this.context.FRAGMENT_SHADER,
-    );
-
+  load() {
+    const vertexShader = this.loadShader(this.vertexShaderId, this.context.VERTEX_SHADER);
+    const fragmentShader = this.loadShader(this.fragmentShaderId, this.context.FRAGMENT_SHADER);
     const program = this.context.createProgram();
+
     this.context.attachShader(program, vertexShader);
     this.context.attachShader(program, fragmentShader);
     this.context.linkProgram(program);
@@ -36,10 +28,25 @@ export default class Shader {
     this.program = program;
   }
 
-  private loadShader(id: string, name: string, type: any) {
+  bindBufferData(bufferType: string, data: any) {
+    const bufferId = this.context.createBuffer();
+    this.context.bindBuffer(this.context[bufferType], bufferId);
+    this.context.bufferData(
+        this.context[bufferType],
+        data,
+        this.context.STATIC_DRAW,
+    );
+    return bufferId;
+  }
+
+  getUniformLocation(name: string) {
+    return this.context.getUniformLocation(this.program, name);
+  }
+
+  private loadShader(id: string, type: any) {
     const elem: any = document.getElementById(id);
     if (!elem) {
-      alert(`Unable to load ${name}${id}`);
+      alert(`Unable to load ${id}`);
       return -1;
     }
 

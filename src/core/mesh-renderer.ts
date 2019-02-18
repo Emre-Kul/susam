@@ -24,21 +24,16 @@ export default class MeshRenderer {
     this.mesh.transform.createModelMatrix();
     this.shader.load();
 
-    console.log(this.mesh.transform.modelMatrix.matrix);
-    this.bindBufferData(this.shader.context.ARRAY_BUFFER,
-                        this.shader.context,
-                        new Float32Array(this.mesh.vertices));
-    this.bindBufferData(this.shader.context.ELEMENT_ARRAY_BUFFER,
-                        this.shader.context,
-                        new Uint16Array(this.mesh.indices));
+    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(this.mesh.vertices));
+    this.shader.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(this.mesh.indices));
 
     const vPos = this.shader.context.getAttribLocation(this.shader.program, 'vPosition');
     this.shader.context.vertexAttribPointer(vPos, 3, this.shader.context.FLOAT, false, 0, 0);
     this.shader.context.enableVertexAttribArray(vPos);
 
-    this.locationModelMtr  = this.shader.context.getUniformLocation(this.shader.program, 'uModel');
-    this.locationViewMtr  = this.shader.context.getUniformLocation(this.shader.program, 'uView');
-    this.locationProjectionMtr  = this.shader.context.getUniformLocation(this.shader.program, 'uProjection');
+    this.locationModelMtr  = this.shader.getUniformLocation('uModel');
+    this.locationViewMtr  = this.shader.getUniformLocation('uView');
+    this.locationProjectionMtr  = this.shader.getUniformLocation('uProjection');
   }
 
   render() {
@@ -66,16 +61,5 @@ export default class MeshRenderer {
                                      this.mesh.indices.length,
                                      this.shader.context.UNSIGNED_SHORT,
                                      0);
-  }
-
-  private bindBufferData(bufferType: any, context: any, data: any) {
-    const bufferId = context.createBuffer();
-    context.bindBuffer(bufferType, bufferId);
-    context.bufferData(
-        bufferType,
-        data,
-        context.STATIC_DRAW,
-    );
-    return bufferId;
   }
 }

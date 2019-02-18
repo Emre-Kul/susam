@@ -87,4 +87,10 @@ export default class Matrix4 {
       [0, 0, 0, 1],
     ];
   }
+
+  // rotateX(vec: Vector3) {}
+  // rotateY(vec: Vector3) {}
+  // rotateZ(vec: Vector3) {}
+  // rotate(vec: Vector3) {}
+
 }
