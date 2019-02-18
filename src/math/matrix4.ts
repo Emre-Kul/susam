@@ -87,9 +87,36 @@ export default class Matrix4 {
     ];
   }
 
-  // rotateX(vec: Vector3) {}
-  // rotateY(vec: Vector3) {}
-  // rotateZ(vec: Vector3) {}
+  rotateX(angle: number) {
+    const c = Math.cos(angle * Math.PI / 180.0);
+    const s = Math.sin(angle * Math.PI / 180.0);
+    this.matrix = [
+        [1, 0.0, 0.0, 0.0],
+        [0, c, -s, 0.0],
+        [0, s, c, 0.0],
+        [0, 0.0, 0.0, 1.0],
+    ];
+  }
+  rotateY(angle: number) {
+    const c = Math.cos(angle * Math.PI / 180.0);
+    const s = Math.sin(angle * Math.PI / 180.0);
+    this.matrix = [
+      [c, 0.0, s, 0.0],
+      [0.0, 1.0, 0.0, 0.0],
+      [-s, 0.0, c, 0.0],
+      [0.0, 0.0, 0.0, 1.0],
+    ];
+  }
+  rotateZ(angle: number) {
+    const c = Math.cos(angle * Math.PI / 180.0);
+    const s = Math.sin(angle * Math.PI / 180.0);
+    this.matrix = [
+      [c, -s, 0.0, 0.0],
+      [s, c, 0.0, 0.0],
+      [0.0, 0.0, 1.0, 0.0],
+      [0.0, 0.0, 0.0, 1.0],
+    ];
+  }
   // rotate(vec: Vector3) {}
 
 }

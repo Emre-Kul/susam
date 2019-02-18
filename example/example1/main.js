@@ -48,6 +48,7 @@ const render = (e) => {
  );
  // SCALE TEST
  cube.mesh.transform.scale = GE.Math.Vector3.create(s, s, s);
+ cube.mesh.transform.rotate = GE.Math.Vector3.create(Math.random() * 36, Math.random() * 36, Math.random() * 36);
 
  let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
  meshRenderer.init();
