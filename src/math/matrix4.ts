@@ -51,12 +51,23 @@ export default class Matrix4 {
     return t;
   }
 
-  static flatten(mtr: any) {
+  static flatten(mtr: Matrix4) {
+    mtr.transpose();
     let arr: any[] = [];
-    mtr.forEach((elem : any) => {
+    mtr.matrix.forEach((elem : any) => {
       arr = arr.concat(elem);
     });
     return arr;
+  }
+
+  transpose() {
+    const result = Matrix4.unit();
+    for (let i = 0; i < this.matrix.length; i++) {
+      for (let j = 0; j < this.matrix[i].length; j++) {
+        result[i][j] = this.matrix[j][i];
+      }
+    }
+    this.matrix = result;
   }
 
   translate(vec: Vector3) {

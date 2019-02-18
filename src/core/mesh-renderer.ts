@@ -46,15 +46,15 @@ export default class MeshRenderer {
 
     this.shader.context.uniformMatrix4fv(this.locationModelMtr,
                                          false,
-                                         Matrix4.flatten(this.mesh.transform.modelMatrix.matrix));
+                                         Matrix4.flatten(this.mesh.transform.modelMatrix));
 
     this.shader.context.uniformMatrix4fv(this.locationViewMtr,
                                          false,
-                                         Matrix4.flatten(this.viewMtr.matrix));
+                                         Matrix4.flatten(this.viewMtr));
 
     this.shader.context.uniformMatrix4fv(this.locationProjectionMtr,
                                          false,
-                                         Matrix4.flatten(this.projectionMtr.matrix));
+                                         Matrix4.flatten(this.projectionMtr));
 
     this.shader.context.clearColor(1.0, 1.0, 1.0, 1.0);
     this.shader.context.clearDepth(1.0);
