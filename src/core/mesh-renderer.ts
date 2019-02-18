@@ -47,14 +47,16 @@ export default class MeshRenderer {
 
   render() {
     const color = new Color();
-    color.setBlue();
+
     this.shader.prepareDraw();
 
     this.shader.setUniformMtr4(this.locationModelMtr, this.mesh.transform.modelMatrix);
     this.shader.setUniformMtr4(this.locationViewMtr, this.viewMtr);
     this.shader.setUniformMtr4(this.locationProjectionMtr, this.projectionMtr);
-    this.shader.setUniformVec4(this.locationColor, color.code);
 
+    color.setRandom();
+    this.shader.setUniformVec4(this.locationColor, color.code);
     this.shader.draw(this.mesh.indices.length);
+
   }
 }

@@ -60,8 +60,8 @@ export default class Shader {
     this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
   }
 
-  draw(length: number) {
-    this.context.drawElements(this.context.TRIANGLES, length, this.context.UNSIGNED_SHORT, 0);
+  draw(length: number, offset: number = 0) {
+    this.context.drawElements(this.context.TRIANGLES, length, this.context.UNSIGNED_SHORT, offset);
   }
 
   private loadShader(id: string, type: any) {
