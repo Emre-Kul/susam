@@ -10,7 +10,7 @@ export default class Camera {
   public viewMatrix: any;
   public projectionMtr: any;
 
-  constructor(eye: Vector3 = new Vector3(0, 0, 10),
+  constructor(eye: Vector3 = new Vector3(0, 0, 5),
               at: Vector3 = Vector3.create(0, 0, 0),
               up: Vector3 = Vector3.create(0, 1, 0),
               ) {

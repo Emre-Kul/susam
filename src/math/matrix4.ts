@@ -52,7 +52,6 @@ export default class Matrix4 {
   }
 
   static flatten(mtr: Matrix4) {
-    mtr.transpose();
     let arr: any[] = [];
     mtr.matrix.forEach((elem : any) => {
       arr = arr.concat(elem);
@@ -60,14 +59,14 @@ export default class Matrix4 {
     return arr;
   }
 
-  transpose() {
-    const result = Matrix4.unit();
-    for (let i = 0; i < this.matrix.length; i++) {
-      for (let j = 0; j < this.matrix[i].length; j++) {
-        result[i][j] = this.matrix[j][i];
+  static transpose(mtr: Matrix4) {
+    const result = Matrix4.create();
+    for (let i = 0; i < mtr.matrix.length; i++) {
+      for (let j = 0; j < mtr.matrix[i].length; j++) {
+        result.matrix[i][j] = mtr.matrix[j][i];
       }
     }
-    this.matrix = result;
+    return result;
   }
 
   translate(vec: Vector3) {

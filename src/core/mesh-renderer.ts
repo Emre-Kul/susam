@@ -34,6 +34,11 @@ export default class MeshRenderer {
     this.locationModelMtr  = this.shader.getUniformLocation('uModel');
     this.locationViewMtr  = this.shader.getUniformLocation('uView');
     this.locationProjectionMtr  = this.shader.getUniformLocation('uProjection');
+
+    this.shader.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.shader.context.clearDepth(1.0);
+    this.shader.context.enable(this.shader.context.DEPTH_TEST);
+    this.shader.context.depthFunc(this.shader.context.LEQUAL);
   }
 
   render() {
@@ -41,21 +46,21 @@ export default class MeshRenderer {
 
     this.shader.context.uniformMatrix4fv(this.locationModelMtr,
                                          false,
-                                         Matrix4.flatten(this.mesh.transform.modelMatrix));
+                                         Matrix4.flatten(Matrix4.transpose(this.mesh.transform.modelMatrix)),
+    );
 
     this.shader.context.uniformMatrix4fv(this.locationViewMtr,
                                          false,
-                                         Matrix4.flatten(this.viewMtr));
+                                         Matrix4.flatten(this.viewMtr),
+    );
 
     this.shader.context.uniformMatrix4fv(this.locationProjectionMtr,
                                          false,
-                                         Matrix4.flatten(this.projectionMtr));
+                                         Matrix4.flatten(this.projectionMtr),
+    );
 
-    this.shader.context.clearColor(1.0, 1.0, 1.0, 1.0);
-    this.shader.context.clearDepth(1.0);
-    this.shader.context.enable(this.shader.context.DEPTH_TEST);
-    this.shader.context.clear(this.shader.context.COLOR_BUFFER_BIT);
-    this.shader.context.depthFunc(this.shader.context.LEQUAL);
+
+    this.shader.context.clear(this.shader.context.COLOR_BUFFER_BIT | this.shader.context.DEPTH_BUFFER_BIT);
 
     this.shader.context.drawElements(this.shader.context.TRIANGLES,
                                      this.mesh.indices.length,
