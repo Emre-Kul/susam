@@ -1,16 +1,29 @@
-let shader, cube, scene,s;
-s = -0.5;
+let shader, cube, scene, s;
+s = 1;
 const init = function () {
-
   scene = new GE.Core.Scene();
   scene.init();
   shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");
   cube = new GE.Physics.Cube();
   cube.createMesh();
-  render({ key: "t"});
+  cube.mesh.color.setRed();
+  scene.run(render);
 };
 
-const render = (e) => {
+const render = () => {
+ cube.mesh.transform.rotate.x += 0.1;
+ cube.mesh.transform.rotate.y += 0.1;
+ cube.mesh.transform.rotate.z += 0.1;
+ let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
+ meshRenderer.init();
+ meshRenderer.render();
+ scene.run(render);
+};
+
+
+
+const keyDown = (e) => {
+
  let px,py,pz;
  px = 0;
  py = 0;
@@ -18,23 +31,26 @@ const render = (e) => {
 
  const translateSpeed = 0.1;
  const scaleSpeed = 0.1;
+ if(e.key === "c"){
+  cube.mesh.color.setRandom();
+ }
  if(e.key === "a"){
-   px = -translateSpeed;
+  px = -translateSpeed;
  }
  if(e.key === "d"){
-   px = translateSpeed;
+  px = translateSpeed;
  }
  if(e.key === "z"){
-   pz = -translateSpeed;
+  pz = -translateSpeed;
  }
  if(e.key === "x"){
-   pz = translateSpeed;
+  pz = translateSpeed;
  }
  if(e.key === "w") {
   py = translateSpeed;
  }
  if(e.key === "s"){
-   py = -translateSpeed;
+  py = -translateSpeed;
  }
  if(e.key === "r"){
   s += scaleSpeed;
@@ -49,14 +65,11 @@ const render = (e) => {
  );
  // SCALE TEST
  cube.mesh.transform.scale = GE.Math.Vector3.create(s, s, s);
- cube.mesh.transform.rotate = GE.Math.Vector3.create(Math.random() * 36, Math.random() * 36, Math.random() * 36);
 
- let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
- meshRenderer.init();
- meshRenderer.render();
 };
 
-document.onkeydown = render;
+
+document.onkeydown = keyDown;
 
 window.onload = init;
 

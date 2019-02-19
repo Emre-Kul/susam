@@ -15,4 +15,18 @@ export default class Scene {
     this.camera.calculatePV();
   }
 
+  run(cb: any) {
+    this.requestFrame()(cb);
+  }
+
+  private requestFrame() {
+    const w = (window as any);
+    return w.requestAnimationFrame ||
+        w.webkitRequestAnimationFrame ||
+        w.mozRequestAnimationFrame ||
+        w.oRequestAnimationFrame ||
+        w.msRequestAnimationFrame ||
+        function (cb: any) { window.setTimeout(cb, 1000 / 60); };
+  }
+
 }
