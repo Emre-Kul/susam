@@ -18,7 +18,7 @@ export default class WebGL {
 
     this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
     this.context.enable(this.context.DEPTH_TEST);
-    this.context.depthFunc(this.context.LEQUAL);
+    // this.context.depthFunc(this.context.LESS);
   }
 
   clear() {

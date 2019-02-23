@@ -17,7 +17,7 @@ export default class Color {
     this.code = Vector4.create(Vector3.create(0, 0, 1), 1);
   }
   setYellow() {
-    this.code = Vector4.create(Vector3.create(0, 1, 1), 1);
+    this.code = Vector4.create(Vector3.create(1, 1, 0), 1);
   }
   setBlack() {
     this.code = Vector4.create(Vector3.create(), 1);

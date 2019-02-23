@@ -43,9 +43,11 @@ export default class MeshRenderer {
     this.locationViewMtr  = this.shader.getUniformLocation('uView');
     this.locationProjectionMtr  = this.shader.getUniformLocation('uProjection');
     this.locationColor = this.shader.getUniformLocation('uColor');
+
   }
 
   render() {
+    // if (Math.random() * 50 < 5) console.log(this);
     this.shader.prepareDraw();
     this.shader.setUniformMtr4(this.locationViewMtr, this.viewMtr);
     this.shader.setUniformMtr4(this.locationProjectionMtr, this.projectionMtr);

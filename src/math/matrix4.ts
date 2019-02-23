@@ -51,6 +51,23 @@ export default class Matrix4 {
     return t;
   }
 
+  static multiplyV3(mtr: Matrix4, vec3: Vector3) {
+    const result = [];
+    const v = [vec3.x, vec3.y, vec3.z, 1.0];
+    let i: number;
+    let j: number;
+    let sum = 0;
+    for (i = 0; i < v.length; i++) {
+      sum = 0.0;
+      for (let j = 0; j < v.length; j++) {
+        sum += mtr.matrix[i][j] * v[j];
+      }
+      result.push(sum);
+    }
+    return Vector3.create(result[0], result[1], result[2]);
+
+  }
+
   static flatten(mtr: Matrix4) {
     let arr: any[] = [];
     mtr.matrix.forEach((elem : any) => {

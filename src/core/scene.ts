@@ -12,11 +12,15 @@ export default class Scene {
 
   init() {
     this.gl.init();
-    this.camera.calculatePV();
+    this.camera.update();
   }
 
   run(cb: any) {
     this.requestFrame()(cb);
+  }
+
+  clear() {
+    this.gl.clear();
   }
 
   private requestFrame() {
