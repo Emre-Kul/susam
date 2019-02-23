@@ -9,7 +9,7 @@ export default class FpsCamera extends Camera{
 
   private sensitivity: number;
 
-  constructor(sensitivity: number, eye: Vector3 = Vector3.create(5, 5, 5),
+  constructor(sensitivity: number, eye: Vector3 = Vector3.create(0, 0, 5),
               at: Vector3 = Vector3.create()) {
     super(eye, at);
 
@@ -45,7 +45,7 @@ export default class FpsCamera extends Camera{
     matRotate = Matrix4.multiply(Matrix4.multiply(matRoll, matPitch), matYaw);
     matTranslate.translate(direction);
 
-    this.viewMatrix = Matrix4.multiply(matRotate, matTranslate);
+    // this.viewMatrix = Matrix4.multiply(matRotate, matTranslate);
   }
 
 }

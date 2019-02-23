@@ -15,7 +15,15 @@ export default class WebGL {
   public init() {
     this.canvas = document.getElementById(this.canvasId);
     this.setup();
+
     this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
+    this.context.enable(this.context.DEPTH_TEST);
+    this.context.depthFunc(this.context.LEQUAL);
+  }
+
+  clear() {
+    this.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.context.clearDepth(1.0);
   }
 
   private setup() {

@@ -1,75 +1,106 @@
-let shader, cube, scene, s;
-s = 1;
+/* GENERAL_DEFINATIONS */
+const CUBE_COUNT = 1000;
+const KEY_STATUS = {};
+const MOUSE = {
+ x : 0,
+ y : 0
+};
+let shader, cubes, renderer, scene;
+/* LISTENERS */
+
+function eventKeyDown(e) {
+ console.log("Key Down : " , e);
+ KEY_STATUS[e.key] = true;
+}
+
+function eventKeyUp(e) {
+ console.log("Key Up: " , e);
+ KEY_STATUS[e.key] = false;
+}
+
+function eventMouseClick(e) {
+ e.preventDefault();
+ e.stopPropagation();
+}
+
+function eventMouseMove(e) {
+ e.preventDefault();
+ e.stopPropagation();
+
+ MOUSE.x = (e.x - e.target.offsetLeft) / 600;
+ MOUSE.y = (e.y - e.target.offsetTop) / 600;
+}
+
+const initListeners = () => {
+ const canvas = document.getElementById("ge-canvas");
+ document.onkeydown = eventKeyDown;
+ document.onkeyup = eventKeyUp;
+ canvas.onmousedown = eventMouseClick;
+ canvas.onmousemove = eventMouseMove;
+};
+/* DRAW */
 const init = function () {
+  initListeners();
   scene = new GE.Core.Scene();
   scene.init();
   shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");
-  cube = new GE.Physics.Cube();
-  cube.createMesh();
-  cube.mesh.color.setRed();
+  createCubes();
   scene.run(render);
 };
 
 const render = () => {
- cube.mesh.transform.rotate.x += 0.1;
- cube.mesh.transform.rotate.y += 0.1;
- cube.mesh.transform.rotate.z += 0.1;
- let meshRenderer = new GE.Core.MeshRenderer(cube.mesh, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
- meshRenderer.init();
- meshRenderer.render();
+ scene.gl.clear();
+ moveCamera();
+ renderCubes();
  scene.run(render);
 };
 
-
-
-const keyDown = (e) => {
-
- let px,py,pz;
- px = 0;
- py = 0;
- pz = 0;
-
- const translateSpeed = 0.1;
- const scaleSpeed = 0.1;
- if(e.key === "c"){
-  cube.mesh.color.setRandom();
+const createCubes = () => {
+ cubes = new Array(CUBE_COUNT);
+ let meshes = new Array(CUBE_COUNT);
+ for(let i = 0;i < CUBE_COUNT;i ++){
+  cubes[i] = new GE.Physics.Cube();
+  cubes[i].createMesh();
+  cubes[i].mesh.transform.position = GE.Math.Vector3.create(0, 5 - i * 1.5, -10);
+  cubes[i].mesh.color.setRandom();
+  meshes[i] = cubes[i].mesh;
  }
- if(e.key === "a"){
-  px = -translateSpeed;
- }
- if(e.key === "d"){
-  px = translateSpeed;
- }
- if(e.key === "z"){
-  pz = -translateSpeed;
- }
- if(e.key === "x"){
-  pz = translateSpeed;
- }
- if(e.key === "w") {
-  py = translateSpeed;
- }
- if(e.key === "s"){
-  py = -translateSpeed;
- }
- if(e.key === "r"){
-  s += scaleSpeed;
- }
- if(e.key === "f"){
-  s -= scaleSpeed;
- }
- cube.mesh.transform.position = GE.Math.Vector3.create(
-   cube.mesh.transform.position.x + px,
-   cube.mesh.transform.position.y + py,
-   cube.mesh.transform.position.z + pz
- );
- // SCALE TEST
- cube.mesh.transform.scale = GE.Math.Vector3.create(s, s, s);
-
+ renderer = new GE.Core.MeshRenderer(meshes, shader, scene.camera.viewMatrix, scene.camera.projectionMtr);
+ renderer.init();
+ console.log(meshes);
 };
 
+const renderCubes = () => {
+ for(let i = 0;i < CUBE_COUNT / 2;i ++){
+  const r = cubes[i].mesh.transform.rotate;
+  cubes[i].mesh.transform.rotate = GE.Math.Vector3.create(
+    r.x + Math.random() * 0.5,
+    r.y + Math.random() * 0.5,
+    r.z + Math.random() * 0.5);
+ }
+ renderer.render();
+};
 
-document.onkeydown = keyDown;
+const moveCamera = () => {
+ let x = 0,y = 0;
+ if(KEY_STATUS["a"]){
+  x = 0.1;
+ }
+ if(KEY_STATUS["w"]){
+  y = -0.1;
+ }
+ if(KEY_STATUS["s"]){
+  y = 0.1;
+ }
+ if(KEY_STATUS["d"]){
+  x = -0.1;
+ }
+ if(x !== 0 || y !== 0){
+  scene.camera.at = GE.Math.Vector3.create(scene.camera.at.x + x, scene.camera.at.y + y, 0);
+  renderer.viewMtr = scene.camera.viewMatrix;
+ }
+
+};
 
 window.onload = init;
 

@@ -5,8 +5,8 @@ export default class Scene {
   public gl: WebGL;
   public camera: Camera;
 
-  constructor(gl: WebGL = new WebGL(), camera = new Camera()) {
-    this.gl = gl;
+  constructor(camera = new Camera()) {
+    this.gl = new WebGL();
     this.camera = camera;
   }
 

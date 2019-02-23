@@ -11,6 +11,7 @@ import Rectangle from './physics/rectangle';
 import Shape from './physics/shape';
 import Cube from './physics/cube';
 import Color from './graphics/color';
+import FpsCamera from './core/fps-camera';
 
 // import ShaderLoader from './core/shader-loader';
 import Transform from './core/transform';
@@ -28,6 +29,7 @@ export const GE = {
     Scene,
     Transform,
     Shader,
+    FpsCamera,
   },
   Physics: {
     Shape,
