@@ -42,6 +42,10 @@ export default class Shader {
     return bufferId;
   }
 
+  getAttribLocation(name: string) {
+    return this.context.getAttribLocation(this.program, name);
+  }
+
   getUniformLocation(name: string) {
     return this.context.getUniformLocation(this.program, name);
   }

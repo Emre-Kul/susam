@@ -9,10 +9,7 @@ export default class MeshRenderer {
   public viewMtr: Matrix4;
   public projectionMtr: Matrix4;
 
-  private locationModelMtr: any;
-  private locationViewMtr: any;
-  private locationProjectionMtr: any;
-  private locationColor: any;
+  private location: any;
 
   constructor(meshes: Mesh[] = [], shader: Shader, viewMtr: Matrix4, projectionMtr: Matrix4) {
     this.meshes = meshes;
@@ -23,40 +20,43 @@ export default class MeshRenderer {
 
   init() {
     this.shader.load();
+    this.getLocations();
 
-    let vertices: number[] = [];
-    let indices: number[] = [];
-    for (const mesh of this.meshes) {
-      vertices = vertices.concat(mesh.vertices);
-      indices = indices.concat(mesh.indices);
-    }
+    const mergedMeshes = Mesh.merge(this.meshes);
 
-    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(vertices));
-    this.shader.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(indices));
+    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(mergedMeshes.vertices));
+    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(mergedMeshes.textureVertices));
+    this.shader.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(mergedMeshes.indices));
 
-    /* Will Clear */
-    const vPos = this.shader.context.getAttribLocation(this.shader.program, 'vPosition');
-    this.shader.context.vertexAttribPointer(vPos, 3, this.shader.context.FLOAT, false, 0, 0);
-    this.shader.context.enableVertexAttribArray(vPos);
+    /* VERTEX */
+    this.shader.context.vertexAttribPointer(this.location.position, 3, this.shader.context.FLOAT, false, 0, 0);
+    this.shader.context.enableVertexAttribArray(this.location.position);
 
-    this.locationModelMtr  = this.shader.getUniformLocation('uModel');
-    this.locationViewMtr  = this.shader.getUniformLocation('uView');
-    this.locationProjectionMtr  = this.shader.getUniformLocation('uProjection');
-    this.locationColor = this.shader.getUniformLocation('uColor');
-
+    /* TEXTURE */
+    this.shader.context.vertexAttribPointer(this.location.texture, 2, this.shader.context.FLOAT, false, 0, 0);
+    this.shader.context.enableVertexAttribArray(this.location.texture);
   }
 
   render() {
-    // if (Math.random() * 50 < 5) console.log(this);
     this.shader.prepareDraw();
-    this.shader.setUniformMtr4(this.locationViewMtr, this.viewMtr);
-    this.shader.setUniformMtr4(this.locationProjectionMtr, this.projectionMtr);
+    this.shader.setUniformMtr4(this.location.view, this.viewMtr);
+    this.shader.setUniformMtr4(this.location.projection, this.projectionMtr);
 
     for (const mesh of this.meshes) {
-      this.shader.setUniformMtr4(this.locationModelMtr, mesh.transform.modelMatrix);
-      this.shader.setUniformVec4(this.locationColor, mesh.color.code);
+      this.shader.setUniformMtr4(this.location.model, mesh.transform.modelMatrix);
+      this.shader.setUniformVec4(this.location.color, mesh.color.code);
       this.shader.draw(mesh.indices.length);
     }
+  }
 
+  private getLocations() {
+    this.location = {};
+    this.location.position = this.shader.getAttribLocation('vPosition');
+    this.location.texture = this.shader.getAttribLocation('vTexture');
+    this.location.model  = this.shader.getUniformLocation('uModel');
+    this.location.view  = this.shader.getUniformLocation('uView');
+    this.location.projection  = this.shader.getUniformLocation('uProjection');
+    this.location.color = this.shader.getUniformLocation('uColor');
+    this.location.sampler = this.shader.getUniformLocation('uSampler');
   }
 }

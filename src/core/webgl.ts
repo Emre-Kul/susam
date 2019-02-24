@@ -22,7 +22,7 @@ export default class WebGL {
   }
 
   clear() {
-    this.context.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.context.clearColor(0.9, 0.9, 0.9, 1.0);
     this.context.clearDepth(1.0);
   }
 

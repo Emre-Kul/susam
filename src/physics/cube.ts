@@ -47,6 +47,33 @@ export default class Cube extends Shape{
       -0.5,  0.5, -0.5,
     ];
 
+    const textureVertices: number[] = [
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+    ];
+
     const indices: number[] = [
       0,  1,  2,      0,  2,  3,    // front
       4,  5,  6,      4,  6,  7,    // back
@@ -56,6 +83,6 @@ export default class Cube extends Shape{
       20, 21, 22,     20, 22, 23,   // left
     ];
 
-    this.mesh = new Mesh(vertices, indices, new Transform());
+    this.mesh = new Mesh(vertices, indices, textureVertices, new Transform());
   }
 }
