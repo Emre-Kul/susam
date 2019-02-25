@@ -7,12 +7,12 @@ export default class Scene {
   public gl: WebGL;
   public camera: Camera;
 
-  private textures: Texture[];
+  public textures: any;
 
   constructor(camera = new Camera()) {
     this.gl = new WebGL();
     this.camera = camera;
-    this.textures = [];
+    this.textures = {};
   }
 
   init() {
@@ -30,12 +30,12 @@ export default class Scene {
   }
 
   addTexture(id: string, image: any) {
-    this.textures.push(new Texture(id, image));
+    this.textures[id] = new Texture(id, image);
   }
 
   private loadTextures() {
-    for (const texture of this.textures) {
-      const textureLoader = new TextureLoader(this.gl.context, texture);
+    for (const key in this.textures) {
+      const textureLoader = new TextureLoader(this.gl.context, this.textures[key]);
       textureLoader.load();
     }
   }

@@ -42,6 +42,7 @@ const init = function () {
   scene = new GE.Core.Scene(new GE.Core.FpsCamera(0.1));
   // scene = new GE.Core.Scene();
   scene.addTexture("ytu-texture", document.getElementById('ytu-texture'));
+  scene.addTexture("js-texture", document.getElementById('js-texture'));
   console.log(document.location);
   scene.init();
   shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");
@@ -67,9 +68,11 @@ const createCubes = () => {
   cubes[i].mesh.transform.scale = GE.Math.Vector3.create(i % 2 + 1, i % 2 + 1, i % 2 + 1);
   // cubes[i].mesh.color.setRandom();
   if(i % 2 === 0){
+   cubes[i].mesh.texture = scene.textures['ytu-texture'];
    cubes[i].mesh.color.setYellow();
   }
   else {
+   cubes[i].mesh.texture = scene.textures['js-texture'];
    cubes[i].mesh.color.setRed();
   }
 

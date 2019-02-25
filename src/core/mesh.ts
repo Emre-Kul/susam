@@ -1,11 +1,13 @@
 import Transform from './transform';
 import Color from '../graphics/color';
+import Texture from '../graphics/texture';
 
 export default class Mesh {
   public vertices: number[];
   public indices: number[];
   public textureVertices: number[];
 
+  public texture: Texture;
   public transform: Transform;
   public color: Color;
 
@@ -13,12 +15,14 @@ export default class Mesh {
               indices: number[] = [],
               textureVertices: number[] = [],
               transform: Transform = new Transform(),
-              color: Color = new Color()) {
+              color: Color = new Color(),
+              texture: Texture = new Texture()) {
     this.vertices = vertices;
     this.indices = indices;
     this.textureVertices = textureVertices;
     this.transform = transform;
     this.color = color;
+    this.texture = texture;
   }
 
   static merge(meshes: Mesh[]) {

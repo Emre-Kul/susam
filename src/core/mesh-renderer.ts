@@ -46,10 +46,15 @@ export default class MeshRenderer {
     for (const mesh of this.meshes) {
       this.shader.setUniformMtr4(this.location.model, mesh.transform.modelMatrix);
       this.shader.setUniformVec4(this.location.color, mesh.color.code);
+
+      if (mesh.texture.data) {
+        console.log(mesh.texture.data);
+        this.shader.context.bindTexture(this.shader.context.TEXTURE_2D, mesh.texture.data);
+      }
+
       this.shader.draw(mesh.indices.length);
     }
   }
-
   private getLocations() {
     this.location.position = this.shader.getAttribLocation('vPosition');
     this.location.texture = this.shader.getAttribLocation('vTexture');
