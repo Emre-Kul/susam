@@ -10,31 +10,32 @@ export default class MeshRenderer {
   public projectionMtr: Matrix4;
 
   private location: any;
+  private mergedMeshes: any;
 
   constructor(meshes: Mesh[] = [], shader: Shader, viewMtr: Matrix4, projectionMtr: Matrix4) {
     this.meshes = meshes;
     this.shader = shader;
     this.viewMtr = viewMtr;
     this.projectionMtr = projectionMtr;
+    this.location = {};
   }
 
   init() {
     this.shader.load();
     this.getLocations();
-
-    const mergedMeshes = Mesh.merge(this.meshes);
-
-    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(mergedMeshes.vertices));
-    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(mergedMeshes.textureVertices));
-    this.shader.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(mergedMeshes.indices));
+    this.mergedMeshes = Mesh.merge(this.meshes);
 
     /* VERTEX */
+    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(this.mergedMeshes.vertices));
     this.shader.context.vertexAttribPointer(this.location.position, 3, this.shader.context.FLOAT, false, 0, 0);
     this.shader.context.enableVertexAttribArray(this.location.position);
 
     /* TEXTURE */
+    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(this.mergedMeshes.textureVertices));
     this.shader.context.vertexAttribPointer(this.location.texture, 2, this.shader.context.FLOAT, false, 0, 0);
     this.shader.context.enableVertexAttribArray(this.location.texture);
+
+    this.shader.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(this.mergedMeshes.indices));
   }
 
   render() {
@@ -50,7 +51,6 @@ export default class MeshRenderer {
   }
 
   private getLocations() {
-    this.location = {};
     this.location.position = this.shader.getAttribLocation('vPosition');
     this.location.texture = this.shader.getAttribLocation('vTexture');
     this.location.model  = this.shader.getUniformLocation('uModel');

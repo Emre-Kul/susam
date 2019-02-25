@@ -60,8 +60,9 @@ export default class Shader {
   }
 
   prepareDraw() {
-    this.context.useProgram(this.program);
     this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
+    this.context.useProgram(this.program);
+
   }
 
   draw(length: number, offset: number = 0) {

@@ -85,6 +85,9 @@ const createCubes = () => {
 const renderCubes = () => {
  cubes[0].mesh.transform.position = scene.camera.target;
  cubes[0].mesh.transform.scale = GE.Math.Vector3.create(0.2, 0.2, 0.2);
+ // const r = cubes[0].mesh.transform.rotate;
+ // cubes[0].mesh.transform.rotate = GE.Math.Vector3.create(r.x + 0.2, r.y + 0.2, r.z + 0.2);
+
  renderer.render();
 };
 
