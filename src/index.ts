@@ -13,6 +13,7 @@ import Cube from './physics/cube';
 import Color from './graphics/color';
 import FpsCamera from './core/fps-camera';
 import Texture from './graphics/texture';
+import Window from './core/window';
 
 // import ShaderLoader from './core/shader-loader';
 import Transform from './core/transform';
@@ -31,6 +32,7 @@ export const GE = {
     Transform,
     Shader,
     FpsCamera,
+    Window,
   },
   Physics: {
     Shape,

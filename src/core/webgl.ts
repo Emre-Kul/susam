@@ -1,7 +1,7 @@
 import { CustomWindow } from '../interfaces';
 
 export default class WebGL {
-  private canvas: any;
+  public canvas: any;
   private readonly attributes: string[];
   private readonly canvasId: string;
   public context: any;

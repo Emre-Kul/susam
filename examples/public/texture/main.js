@@ -1,11 +1,11 @@
 /* GENERAL_DEFINATIONS */
-const CUBE_COUNT = 100;
+const CUBE_COUNT = 2;
 const KEY_STATUS = {};
 const MOUSE = {
  x : 0,
  y : 0
 };
-let shader, cubes, renderer, scene;
+let shader, cubes, renderer, scene, canvas;
 /* LISTENERS */
 
 function eventKeyDown(e) {
@@ -29,16 +29,21 @@ function eventMouseMove(e) {
  MOUSE.y = (e.y - e.target.offsetTop) / 600;
 }
 
+function onResize() {
+ GE.Core.Window.resizeCanvas(scene.gl);
+}
+
 const initListeners = () => {
- const canvas = document.getElementById("ge-canvas");
+ canvas = document.getElementById("ge-canvas");
+ document.resize = onResize;
  document.onkeydown = eventKeyDown;
  document.onkeyup = eventKeyUp;
  canvas.onmousedown = eventMouseClick;
  canvas.onmousemove = eventMouseMove;
+ onResize();
 };
 /* DRAW */
 const init = function () {
-  initListeners();
   scene = new GE.Core.Scene(new GE.Core.FpsCamera(0.1));
   // scene = new GE.Core.Scene();
   scene.addTexture("ytu-texture", document.getElementById('ytu-texture'));
@@ -48,6 +53,7 @@ const init = function () {
   shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");
   createCubes();
   scene.run(render);
+  initListeners();
 };
 
 const render = () => {
@@ -65,7 +71,7 @@ const createCubes = () => {
   cubes[i] = new GE.Physics.Cube();
   cubes[i].createMesh();
   cubes[i].mesh.transform.position = GE.Math.Vector3.create(i % 10 * 4, 0, z);
-  cubes[i].mesh.transform.scale = GE.Math.Vector3.create(i % 2 + 1, i % 2 + 1, i % 2 + 1);
+  // cubes[i].mesh.transform.scale = GE.Math.Vector3.create(i % 2 + 1, i % 2 + 1, i % 2 + 1);
   // cubes[i].mesh.color.setRandom();
   if(i % 2 === 0){
    cubes[i].mesh.texture = scene.textures['ytu-texture'];
@@ -86,10 +92,11 @@ const createCubes = () => {
 };
 
 const renderCubes = () => {
- cubes[0].mesh.transform.position = scene.camera.target;
- cubes[0].mesh.transform.scale = GE.Math.Vector3.create(0.2, 0.2, 0.2);
+ const r = cubes[0].mesh.transform.rotate;
+ // cubes[0].mesh.transform.position = scene.camera.target;
+ // cubes[0].mesh.transform.scale = GE.Math.Vector3.create(0.2, 0.2, 0.2);
  // const r = cubes[0].mesh.transform.rotate;
- // cubes[0].mesh.transform.rotate = GE.Math.Vector3.create(r.x + 0.2, r.y + 0.2, r.z + 0.2);
+ cubes[0].mesh.transform.rotate = GE.Math.Vector3.create(r.x + 0.2, r.y + 0.2, r.z + 0.2);
 
  renderer.render();
 };

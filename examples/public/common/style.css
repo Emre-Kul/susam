@@ -1,8 +1,12 @@
-body {
+html, body {
     background-color: #abb1ba;
+    margin: 0;
+    padding: 0;
 }
 canvas {
+    width: 100vw;
+    height: 100vh;
     display:block;
-    width: 500px;
-    margin: auto;
+    margin: 0;
+    padding: 0;
 }
