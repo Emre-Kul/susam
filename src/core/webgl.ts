@@ -27,7 +27,7 @@ export default class WebGL {
     this.context.clearDepth(1.0);
 
     // this.context.depthFunc(this.context.LEQUAL);
-    // this.context.cullFace(this.context.FRONT_AND_BACK);
+    this.context.cullFace(this.context.FRONT);
 
   }
 

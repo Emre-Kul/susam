@@ -12,7 +12,7 @@ export default class Projection {
 
   private _matrix: Matrix4;
 
-  constructor(fovy: number = 45, aspect: number = 1, near: number = -10, far: number = 100) {
+  constructor(fovy: number = 45, aspect: number = 1, near: number = -10, far: number = 1000) {
     this.fovy = fovy;
     this.aspect = aspect;
     this.near = near;

@@ -32,11 +32,18 @@ export default class FpsCamera extends Camera{
     this.calculateView();
   }
 
-  move(direction: Vector3) {
-    // direction.normalize();
-    this.target.add(direction);
+  moveForward(val: number) {
+    const direction = Vector3.subtract(this.eye, this.target);
+    direction.normalize();
+    direction.multiply(Vector3.create(val, val, val));
     this.eye.add(direction);
+    this.target.add(direction);
+    // this.up.add(direction);
     this.calculateView();
+  }
+
+  moveSide(val: number) {
+
   }
 
 }

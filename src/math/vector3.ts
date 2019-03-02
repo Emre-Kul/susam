@@ -42,6 +42,7 @@ export default class Vector3 {
   }
 
   normalize() {
+    if (this.x === 0 && this.y === 0 && this.z === 0) return;
     const length = this.length();
     this.change(this.x / length, this.y / length, this.z / length);
   }
@@ -52,16 +53,23 @@ export default class Vector3 {
     this.z += vec.z;
   }
 
+  multiply(vec: Vector3) {
+    console.log('Mult vec : ', vec, this);
+    this.x = this.x * vec.x;
+    this.y = this.y * vec.y;
+    this.z = this.z * vec.z;
+    console.log('Mult vec : ', vec, this);
+  }
+
   static dot(vec1: Vector3, vec2: Vector3): number {
     return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
   }
 
   static subtract(vec1: Vector3, vec2: Vector3): Vector3 {
-    const resultVector: Vector3 = Vector3.create();
-    resultVector.x = vec1.x - vec2.x;
-    resultVector.y = vec1.y - vec2.y;
-    resultVector.z = vec1.z - vec2.z;
-    return resultVector;
+    const x = vec1.x - vec2.x;
+    const y = vec1.y - vec2.y;
+    const z = vec1.z - vec2.z;
+    return Vector3.create(x, y, z);
   }
 
   // https://www.mathsisfun.com/algebra/vectors-cross-product.html

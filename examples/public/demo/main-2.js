@@ -1,5 +1,6 @@
 /* GLOBALS */
-const CUBE_COUNT = 100;
+const CUBE_COUNT = 2000;
+const RAND_VAL = 50;
 const G = {
   KEY : {}
 };
@@ -21,36 +22,50 @@ function loadResources() {
   G.scene.loadShader("shader-default", "vertex-shader", "fragment-shader");
   G.scene.loadTexture("texture-js", document.getElementById("js-texture"));
   G.scene.loadTexture("texture-ytu", document.getElementById("ytu-texture"));
+  G.scene.loadTexture("texture-cube1", document.getElementById("cube1-texture"));
+  G.scene.loadTexture("texture-cube2", document.getElementById("cube2-texture"));
+  G.scene.loadTexture("texture-skybox", document.getElementById("skybox-texture"));
+  G.scene.loadTexture("texture-cube4", document.getElementById("cube4-texture"));
+}
+
+function randomTexture() {
+  const textureIds = ["texture-cube1", "texture-cube2", "texture-cube4", "texture-ytu", "texture-js"];
+  return textureIds[Math.floor(Math.random() * textureIds.length)];
 }
 
 function createObjects() {
+
   G.objects = [];
-  G.renderers = [];
   const cube = new GE.Physics.Cube();
   cube.createMesh();
   const shader = G.scene.resourceManager.resources["shader-default"];
   for(let i = 0;i < CUBE_COUNT;i++){
-   const texture = G.scene.resourceManager.resources[(i % 2) ? "texture-js" : "texture-ytu"];
+   const texture = G.scene.resourceManager.resources[randomTexture()];
    const transform = new GE.Core.Transform();
-   transform.position = GE.Math.Vector3.create(- i * 2, 0, 0);
+   const rand = Math.random() * 2;
+
+   transform.position = GE.Math.Vector3.create(RAND_VAL / 2 - Math.random() * RAND_VAL, RAND_VAL / 2 - Math.random() * RAND_VAL, RAND_VAL / 2 - Math.random() * RAND_VAL);
+   // transform.position = GE.Math.Vector3.create(rand * i, 0, 0);
+   // transform.scale = GE.Math.Vector3.create(rand, rand, rand);
    const obj = new GE.Core.GameObject(transform, cube.mesh, texture, shader);
    G.objects.push(obj);
-   G.renderers.push(new GE.Core.MeshRenderer(obj, G.scene));
   }
-
+  G.objects[0].transform.position = GE.Math.Vector3.create();
+  G.objects[0].transform.scale = GE.Math.Vector3.create(RAND_VAL * 10, RAND_VAL * 10, RAND_VAL * 10);
+  G.objects[0].texture = G.scene.resourceManager.resources["texture-skybox"];
 
 
 }
 
 function render() {
   moveCamera();
-  for(const object of G.objects) {
-   const r = object.transform.rotate;
-   object.transform.rotate = new GE.Math.Vector3(r.x + Math.random(), r.y + Math.random(), r.z + Math.random());
-  }
-
-  for(const renderer of G.renderers) {
-    renderer.render();
+  G.objects[0].render(G.scene);
+  for(let i = 1;i < G.objects.length;i++) {
+   const r = G.objects[i].transform.rotate;
+   const p = G.objects[i].transform.position;
+   G.objects[i].transform.rotate = new GE.Math.Vector3(r.x + Math.random(), r.y + Math.random(), r.z + Math.random());
+   // object.transform.position = GE.Math.Vector3.create(p.x, p.y, - Math.random() * 10);
+   G.objects[i].render(G.scene);
   }
   G.scene.run(render);
 }
@@ -62,10 +77,10 @@ const moveCamera = () => {
   mx = -0.1;
  }
  if(G.KEY["w"]){
-  my = -0.1;
+  my = -1;
  }
  if(G.KEY["s"]){
-  my = 0.1;
+  my = 1;
  }
  if(G.KEY["d"]){
   mx = 0.1;
@@ -84,7 +99,7 @@ const moveCamera = () => {
  }
  if(lx !== 0 || ly !== 0 || mx !== 0 || my !== 0){
   G.scene.camera.point(GE.Math.Vector3.create(lx, ly, 0));
-  G.scene.camera.move(GE.Math.Vector3.create(mx, 0, my));
+  G.scene.camera.moveForward(my);
  }
 
 };
