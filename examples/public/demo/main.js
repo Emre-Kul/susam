@@ -8,53 +8,9 @@ const MOUSE = {
 let shader, cubes, renderer, scene, canvas;
 /* LISTENERS */
 
-function eventKeyDown(e) {
- KEY_STATUS[e.key] = true;
-}
 
-function eventKeyUp(e) {
- KEY_STATUS[e.key] = false;
-}
-
-function eventMouseClick(e) {
- e.preventDefault();
- e.stopPropagation();
-}
-
-function eventMouseMove(e) {
- e.preventDefault();
- e.stopPropagation();
-
- MOUSE.x = (e.x - e.target.offsetLeft) / 600;
- MOUSE.y = (e.y - e.target.offsetTop) / 600;
-}
-
-function onResize() {
- GE.Core.Window.resizeCanvas(scene.gl);
-}
-
-const initListeners = () => {
- canvas = document.getElementById("ge-canvas");
- document.resize = onResize;
- document.onkeydown = eventKeyDown;
- document.onkeyup = eventKeyUp;
- canvas.onmousedown = eventMouseClick;
- canvas.onmousemove = eventMouseMove;
- onResize();
-};
 /* DRAW */
-const init = function () {
-  scene = new GE.Core.Scene(new GE.Core.FpsCamera(0.1));
-  // scene = new GE.Core.Scene();
-  scene.addTexture("ytu-texture", document.getElementById('ytu-texture'));
-  scene.addTexture("js-texture", document.getElementById('js-texture'));
-  console.log(document.location);
-  scene.init();
-  shader = new GE.Core.Shader(scene.gl.context, "vertex-shader", "fragment-shader");
-  createCubes();
-  scene.run(render);
-  initListeners();
-};
+
 
 const render = () => {
  moveCamera();

@@ -8,7 +8,6 @@ export default class WebGL {
   private readonly attributes: string[];
   private readonly canvasId: string;
   public context: any;
-  public program: any;
 
   constructor(canvasId: string = 'ge-canvas', attributes: string[] = []) {
     this.canvasId = canvasId;
@@ -40,22 +39,23 @@ export default class WebGL {
     this.context.drawElements(this.context.TRIANGLES, length, this.context.UNSIGNED_SHORT, offset);
   }
   useShader(shader: Shader) {
-    this.program = this.context.createProgram();
-    this.context.attachShader(this.program, shader.vertex);
-    this.context.attachShader(this.program, shader.fragment);
-    this.context.linkProgram(this.program);
+    const program = this.context.createProgram();
+    this.context.attachShader(program, shader.vertex);
+    this.context.attachShader(program, shader.fragment);
+    this.context.linkProgram(program);
+    return program;
   }
 
-  loadLocations() {
+  loadLocations(program: any) {
     const location: any = {};
-    location.position = this.context.getAttribLocation(this.program, 'vPosition');
-    location.texture = this.context.getAttribLocation(this.program, 'vTexture');
+    location.position = this.context.getAttribLocation(program, 'vPosition');
+    location.texture = this.context.getAttribLocation(program, 'vTexture');
 
-    location.model  = this.context.getUniformLocation(this.program, 'uModel');
-    location.view  = this.context.getUniformLocation(this.program, 'uView');
-    location.projection  = this.context.getUniformLocation(this.program, 'uProjection');
-    location.color = this.context.getUniformLocation(this.program, 'uColor');
-    location.sampler = this.context.getUniformLocation(this.program, 'uSampler');
+    location.model  = this.context.getUniformLocation(program, 'uModel');
+    location.view  = this.context.getUniformLocation(program, 'uView');
+    location.projection  = this.context.getUniformLocation(program, 'uProjection');
+    location.color = this.context.getUniformLocation(program, 'uColor');
+    location.sampler = this.context.getUniformLocation(program, 'uSampler');
     return location;
   }
 

@@ -4,43 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Example-1</title>
+    <title>DEMO</title>
     <link rel="stylesheet" href="../common/style.css">
 
     <script id="vertex-shader" type="x-shader/x-vertex">
         attribute vec3 vPosition;
+        attribute vec2 vTexture;
 
         uniform mat4 uModel;
         uniform mat4 uView;
         uniform mat4 uProjection;
         uniform vec4 uColor;
 
-        varying vec4 vColor;
+        varying vec4 vvColor;
+        varying highp vec2 vvTexture;
 
         void main() {
             gl_Position = uProjection * uView * uModel * vec4(vPosition.x, vPosition.y, vPosition.z, 1.0);
-            vColor = uColor;
+            vvColor = uColor;
+            vvTexture = vTexture;
             }
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
         precision mediump float;
 
-        varying vec4 vColor;
+        varying vec4 vvColor;
+        varying highp vec2 vvTexture;
+
+        uniform sampler2D uSampler;
 
         void main() {
-            gl_FragColor = vColor;
+            gl_FragColor = texture2D(uSampler, vvTexture);
         }
     </script>
 
 
 
 
-    <script src="../../assets/bundle.js"></script>
-    <script src="main.js"></script>
+    <script src="/bundle.js"></script>
+    <script src="main-2.js"></script>
 
 </head>
 <body>
-<canvas id="ge-canvas" width="1000" height="1000" style="width: 600px; height: 600px;"></canvas>
+<canvas id="ge-canvas"></canvas>
+<img id="ytu-texture" src="assets/ytu-logo.jpg" style="display: none" crossorigin="anonymous"/>
+<img id="js-texture" src="assets/js-logo.png" style="display: none" crossorigin="anonymous"/>
 </body>
 </html>

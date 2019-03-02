@@ -6,17 +6,19 @@ export default class MeshRenderer {
   public gameObject: GameObject;
   public scene: Scene;
 
+  public program: any;
   private location: any;
 
   constructor(gameObject: GameObject, scene: Scene) {
     this.gameObject = gameObject;
     this.scene = scene;
     this.location = {};
+    this.program = null;
   }
 
   init() {
-    this.scene.gl.useShader(this.gameObject.shader);
-    this.location = this.scene.gl.loadLocations();
+    this.program = this.scene.gl.useShader(this.gameObject.shader);
+    this.location = this.scene.gl.loadLocations(this.program);
 
     /* VERTEX */
     this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.vertices));
@@ -32,8 +34,8 @@ export default class MeshRenderer {
   }
 
   render() {
-    this.scene.clear();
-    this.scene.gl.context.useProgram(this.scene.gl.program);
+    if (!this.program) this.init();
+    this.scene.gl.context.useProgram(this.program);
     this.scene.gl.setUniformMtr4(this.location.view, this.scene.camera.viewMatrix);
     this.scene.gl.setUniformMtr4(this.location.projection, this.scene.projection.matrix);
     this.scene.gl.setUniformMtr4(this.location.model, this.gameObject.transform.modelMatrix);
