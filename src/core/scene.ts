@@ -4,6 +4,7 @@ import ResourceManager from './resource-manager';
 import TextureLoader from '../loaders/texture-loader';
 import ShaderLoader from '../loaders/shader-loader';
 import Projection from './projection';
+import Window from './window';
 
 export default class Scene {
   public camera: Camera;
@@ -21,7 +22,7 @@ export default class Scene {
   init() {
     this.gl.init();
     this.camera.update();
-    this.projection.calculate();
+    this.resize();
   }
 
   run(cb: any) {
@@ -30,6 +31,13 @@ export default class Scene {
 
   clear() {
     this.gl.clear();
+  }
+
+  resize() {
+    Window.resizeCanvas(this.gl.canvas);
+    this.gl.context.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.projection.aspect = this.gl.canvas.width / this.gl.canvas.height;
+    this.projection.calculate();
   }
 
   public loadTexture(id: string, image: any) {

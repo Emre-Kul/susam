@@ -24,7 +24,7 @@ export default class WebGL {
     this.context.enable(this.context.DEPTH_TEST);
     this.context.enable(this.context.CULL_FACE);
     this.context.depthMask(false);
-    this.context.clearColor(0.5, 0, 0.5, 1.0);
+    this.context.clearColor(0.95, 0.95, 0.95, 1.0);
     this.context.clearDepth(1.0);
 
     // this.context.depthFunc(this.context.LEQUAL);
@@ -36,7 +36,7 @@ export default class WebGL {
     this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
   }
 
-  draw(offset: number) {
+  draw(length: number, offset: number = 0) {
     this.context.drawElements(this.context.TRIANGLES, length, this.context.UNSIGNED_SHORT, offset);
   }
   useShader(shader: Shader) {

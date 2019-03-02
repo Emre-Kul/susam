@@ -1,9 +1,6 @@
-import WebGL from './webgl';
-
 export default class Window {
 
-  static resizeCanvas(gl: WebGL) {
-    const canvas = gl.canvas;
+  static resizeCanvas(canvas: any) {
     const realToCSSPixels = window.devicePixelRatio;
     const displayWidth = Math.floor(canvas.clientWidth * realToCSSPixels);
     const displayHeight = Math.floor(canvas.clientHeight * realToCSSPixels);
@@ -11,7 +8,6 @@ export default class Window {
       canvas.width = displayWidth;
       canvas.height = displayHeight;
     }
-    gl.context.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   }
 
 }

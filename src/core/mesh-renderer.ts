@@ -17,6 +17,7 @@ export default class MeshRenderer {
   init() {
     this.scene.gl.useShader(this.gameObject.shader);
     this.location = this.scene.gl.loadLocations();
+
     /* VERTEX */
     this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.vertices));
     this.scene.gl.context.vertexAttribPointer(this.location.position, 3, this.scene.gl.context.FLOAT, false, 0, 0);
