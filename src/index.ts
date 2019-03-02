@@ -14,6 +14,7 @@ import Color from './graphics/color';
 import FpsCamera from './core/fps-camera';
 import Texture from './graphics/texture';
 import Window from './core/window';
+import GameObject from './core/game-object';
 
 // import ShaderLoader from './core/shader-loader';
 import Transform from './core/transform';
@@ -33,6 +34,7 @@ export const GE = {
     Shader,
     FpsCamera,
     Window,
+    GameObject,
   },
   Physics: {
     Shape,

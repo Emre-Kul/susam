@@ -2,13 +2,13 @@ import Vector3 from './vector3';
 import Vector4 from './vector4';
 
 export default class Matrix4 {
-  public matrix : any;
+  public data : any;
 
   constructor(vec1: Vector4 = Vector4.create(Vector3.create(1)),
               vec2: Vector4 = Vector4.create(Vector3.create(0, 1)),
               vec3: Vector4 = Vector4.create(Vector3.create(0, 0, 1)),
               vec4: Vector4 = Vector4.create(Vector3.create(), 1)) {
-    this.matrix = [
+    this.data = [
         [vec1.x, vec1.y, vec1.z, vec1.w],
         [vec2.x, vec2.y, vec2.z, vec2.w],
         [vec3.x, vec3.y, vec3.z, vec3.w],
@@ -34,18 +34,18 @@ export default class Matrix4 {
 
   static multiply(mtr1: Matrix4, mtr2: Matrix4) {
     const t = Matrix4.create();
-    const u = mtr1.matrix;
-    const v = mtr2.matrix;
-    t.matrix = [];
+    const u = mtr1.data;
+    const v = mtr2.data;
+    t.data = [];
     for (let i = 0; i < 4; ++i) {
-      t.matrix.push([]);
+      t.data.push([]);
 
       for (let j = 0; j < 4; ++j) {
         let sum = 0.0;
         for (let k = 0; k < 4; ++k) {
           sum += u[i][k] * v[k][j];
         }
-        t.matrix[i].push(sum);
+        t.data[i].push(sum);
       }
     }
     return t;
@@ -60,7 +60,7 @@ export default class Matrix4 {
     for (i = 0; i < v.length; i++) {
       sum = 0.0;
       for (let j = 0; j < v.length; j++) {
-        sum += mtr.matrix[i][j] * v[j];
+        sum += mtr.data[i][j] * v[j];
       }
       result.push(sum);
     }
@@ -70,7 +70,7 @@ export default class Matrix4 {
 
   static flatten(mtr: Matrix4) {
     let arr: any[] = [];
-    mtr.matrix.forEach((elem : any) => {
+    mtr.data.forEach((elem : any) => {
       arr = arr.concat(elem);
     });
     return arr;
@@ -78,16 +78,16 @@ export default class Matrix4 {
 
   static transpose(mtr: Matrix4) {
     const result = Matrix4.create();
-    for (let i = 0; i < mtr.matrix.length; i++) {
-      for (let j = 0; j < mtr.matrix[i].length; j++) {
-        result.matrix[i][j] = mtr.matrix[j][i];
+    for (let i = 0; i < mtr.data.length; i++) {
+      for (let j = 0; j < mtr.data[i].length; j++) {
+        result.data[i][j] = mtr.data[j][i];
       }
     }
     return result;
   }
 
   translate(vec: Vector3) {
-    this.matrix = [
+    this.data = [
       [1, 0, 0, vec.x],
       [0, 1, 0, vec.y],
       [0, 0, 1, vec.z],
@@ -96,7 +96,7 @@ export default class Matrix4 {
   }
 
   scale(vec: Vector3) {
-    this.matrix = [
+    this.data = [
       [vec.x, 0, 0, 0],
       [0, vec.y, 0, 0],
       [0, 0, vec.z, 0],
@@ -107,7 +107,7 @@ export default class Matrix4 {
   rotateX(angle: number) {
     const c = Math.cos(angle * Math.PI / 180.0);
     const s = Math.sin(angle * Math.PI / 180.0);
-    this.matrix = [
+    this.data = [
         [1, 0.0, 0.0, 0.0],
         [0, c, -s, 0.0],
         [0, s, c, 0.0],
@@ -117,7 +117,7 @@ export default class Matrix4 {
   rotateY(angle: number) {
     const c = Math.cos(angle * Math.PI / 180.0);
     const s = Math.sin(angle * Math.PI / 180.0);
-    this.matrix = [
+    this.data = [
       [c, 0.0, s, 0.0],
       [0.0, 1.0, 0.0, 0.0],
       [-s, 0.0, c, 0.0],
@@ -127,7 +127,7 @@ export default class Matrix4 {
   rotateZ(angle: number) {
     const c = Math.cos(angle * Math.PI / 180.0);
     const s = Math.sin(angle * Math.PI / 180.0);
-    this.matrix = [
+    this.data = [
       [c, -s, 0.0, 0.0],
       [s, c, 0.0, 0.0],
       [0.0, 0.0, 1.0, 0.0],

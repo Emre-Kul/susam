@@ -1,13 +1,12 @@
 export default class ResourceManager {
-  public id: string;
-  public loader: any;
+  public resources: any;
 
-  constructor(id: string, loader: any) {
-    this.id = id;
-    this.loader = loader;
+  constructor() {
+    this.resources = {};
   }
 
-  load() {
-    this.loader.load();
+  load(id: string, loader: any) {
+    this.resources[id] = loader.load();
   }
+
 }

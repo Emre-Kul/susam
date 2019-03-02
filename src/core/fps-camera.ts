@@ -19,11 +19,6 @@ export default class FpsCamera extends Camera{
     this.pitch = 0;
   }
 
-  update() {
-    this.calculateView();
-    this.calculateProjection();
-  }
-
   point(diff: Vector3) {
     const rx = Matrix4.create();
     const rz = Matrix4.create();
@@ -34,8 +29,6 @@ export default class FpsCamera extends Camera{
     direction = Matrix4.multiplyV3(Matrix4.multiply(rx, rz), direction);
     direction.add(this.eye);
     this.target = Vector3.create(direction.x, direction.y, direction.z);
-    console.log(rx.matrix, direction, direction, diff);
-    // console.log(angle, this.target, this.eye);
     this.calculateView();
   }
 
@@ -45,26 +38,5 @@ export default class FpsCamera extends Camera{
     this.eye.add(direction);
     this.calculateView();
   }
-
-  /*
-  // http://in2gpu.com/2016/02/26/opengl-fps-camera/
-  protected calculateView() {
-    const direction = Vector3.subtract(this.at, this.eye);
-    const matRoll = Matrix4.create();
-    const matPitch = Matrix4.create();
-    const matYaw = Matrix4.create();
-    const matTranslate = Matrix4.create();
-    let matRotate;
-
-    matYaw.rotateY(this.yaw);
-    matPitch.rotateX(this.pitch);
-    matRoll.rotateZ(this.roll);
-    matRotate = Matrix4.multiply(Matrix4.multiply(matRoll, matPitch), matYaw);
-    matTranslate.translate(direction);
-    this._viewMatrix = Matrix4.multiply(matRotate, matTranslate);
-    this._viewMatrix.matrix[3][3] = 0;
-    console.log(this.viewMatrix);
-  }
-  */
 
 }

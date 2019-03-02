@@ -1,67 +1,46 @@
-import Shader from './shader';
-import Mesh from './mesh';
-import Matrix4 from '../math/matrix4';
+import GameObject from './game-object';
+import Scene from './scene';
 
 export default class MeshRenderer {
 
-  public shader: Shader;
-  public meshes: Mesh[];
-  public viewMtr: Matrix4;
-  public projectionMtr: Matrix4;
+  public gameObject: GameObject;
+  public scene: Scene;
 
   private location: any;
-  private mergedMeshes: any;
 
-  constructor(meshes: Mesh[] = [], shader: Shader, viewMtr: Matrix4, projectionMtr: Matrix4) {
-    this.meshes = meshes;
-    this.shader = shader;
-    this.viewMtr = viewMtr;
-    this.projectionMtr = projectionMtr;
+  constructor(gameObject: GameObject, scene: Scene) {
+    this.gameObject = gameObject;
+    this.scene = scene;
     this.location = {};
   }
 
   init() {
-    this.shader.load();
-    this.getLocations();
-    this.mergedMeshes = Mesh.merge(this.meshes);
-
+    this.scene.gl.useShader(this.gameObject.shader);
+    this.location = this.scene.gl.loadLocations();
     /* VERTEX */
-    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(this.mergedMeshes.vertices));
-    this.shader.context.vertexAttribPointer(this.location.position, 3, this.shader.context.FLOAT, false, 0, 0);
-    this.shader.context.enableVertexAttribArray(this.location.position);
+    this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.vertices));
+    this.scene.gl.context.vertexAttribPointer(this.location.position, 3, this.scene.gl.context.FLOAT, false, 0, 0);
+    this.scene.gl.context.enableVertexAttribArray(this.location.position);
 
     /* TEXTURE */
-    this.shader.bindBufferData('ARRAY_BUFFER', new Float32Array(this.mergedMeshes.textureVertices));
-    this.shader.context.vertexAttribPointer(this.location.texture, 2, this.shader.context.FLOAT, false, 0, 0);
-    this.shader.context.enableVertexAttribArray(this.location.texture);
+    this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.textureVertices));
+    this.scene.gl.context.vertexAttribPointer(this.location.texture, 2, this.scene.gl.context.FLOAT, false, 0, 0);
+    this.scene.gl.context.enableVertexAttribArray(this.location.texture);
 
-    this.shader.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(this.mergedMeshes.indices));
+    this.scene.gl.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(this.gameObject.mesh.indices));
   }
 
   render() {
-    this.shader.prepareDraw();
-    this.shader.setUniformMtr4(this.location.view, this.viewMtr);
-    this.shader.setUniformMtr4(this.location.projection, this.projectionMtr);
-
-    for (const mesh of this.meshes) {
-      this.shader.setUniformMtr4(this.location.model, mesh.transform.modelMatrix);
-      this.shader.setUniformVec4(this.location.color, mesh.color.code);
-
-      if (mesh.texture.data) {
-        console.log(mesh.texture.data);
-        this.shader.context.bindTexture(this.shader.context.TEXTURE_2D, mesh.texture.data);
-      }
-
-      this.shader.draw(mesh.indices.length);
+    this.scene.clear();
+    this.scene.gl.context.useProgram(this.scene.gl.program);
+    this.scene.gl.setUniformMtr4(this.location.view, this.scene.camera.viewMatrix);
+    this.scene.gl.setUniformMtr4(this.location.projection, this.scene.projection.matrix);
+    this.scene.gl.setUniformMtr4(this.location.model, this.gameObject.transform.modelMatrix);
+    this.scene.gl.setUniformVec4(this.location.color, this.gameObject.mesh.color.code);
+    if (this.gameObject.texture.data) {
+      this.scene.gl.context.bindTexture(this.scene.gl.context.TEXTURE_2D, this.gameObject.texture.data);
     }
+    this.scene.gl.draw(this.gameObject.mesh.indices.length);
   }
-  private getLocations() {
-    this.location.position = this.shader.getAttribLocation('vPosition');
-    this.location.texture = this.shader.getAttribLocation('vTexture');
-    this.location.model  = this.shader.getUniformLocation('uModel');
-    this.location.view  = this.shader.getUniformLocation('uView');
-    this.location.projection  = this.shader.getUniformLocation('uProjection');
-    this.location.color = this.shader.getUniformLocation('uColor');
-    this.location.sampler = this.shader.getUniformLocation('uSampler');
-  }
+
 }

@@ -1,24 +1,27 @@
 import WebGL from './webgl';
 import Camera from './camera';
-import Texture from '../graphics/texture';
-import TextureLoader from '../graphics/texture-loader';
+import ResourceManager from './resource-manager';
+import TextureLoader from '../loaders/texture-loader';
+import ShaderLoader from '../loaders/shader-loader';
+import Projection from './projection';
 
 export default class Scene {
-  public gl: WebGL;
   public camera: Camera;
+  public resourceManager: ResourceManager;
 
-  public textures: any;
-
+  public readonly gl: WebGL;
+  public projection: Projection;
   constructor(camera = new Camera()) {
     this.gl = new WebGL();
     this.camera = camera;
-    this.textures = {};
+    this.resourceManager = new ResourceManager();
+    this.projection = new Projection();
   }
 
   init() {
     this.gl.init();
-    this.loadTextures();
     this.camera.update();
+    this.projection.calculate();
   }
 
   run(cb: any) {
@@ -29,15 +32,14 @@ export default class Scene {
     this.gl.clear();
   }
 
-  addTexture(id: string, image: any) {
-    this.textures[id] = new Texture(id, image);
+  public loadTexture(id: string, image: any) {
+    const textureLoader = new TextureLoader(this.gl, image);
+    this.resourceManager.load(id, textureLoader);
   }
 
-  private loadTextures() {
-    for (const key in this.textures) {
-      const textureLoader = new TextureLoader(this.gl.context, this.textures[key]);
-      textureLoader.load();
-    }
+  public loadShader(id: string, vertexId: string, fragmentId: string) {
+    const shaderLoader = new ShaderLoader(this.gl, vertexId, fragmentId);
+    this.resourceManager.load(id, shaderLoader);
   }
 
   private requestFrame() {

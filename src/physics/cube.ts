@@ -94,6 +94,6 @@ export default class Cube extends Shape{
       20, 21, 22,     20, 22, 23,   // left
     ];
 
-    this.mesh = new Mesh(vertices, indices, textureVertices, new Transform());
+    this.mesh = new Mesh(vertices, indices, textureVertices);
   }
 }

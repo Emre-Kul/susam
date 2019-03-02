@@ -27,9 +27,6 @@ export default class Camera {
     this.calculateView();
     this._target = value;
   }
-  get projectionMtr(): any {
-    return this._projectionMtr;
-  }
   get viewMatrix(): any {
     return this._viewMatrix;
   }
@@ -37,8 +34,7 @@ export default class Camera {
   private _up: Vector3;
   private _eye: Vector3;
 
-  protected _viewMatrix: any;
-  protected _projectionMtr: any;
+  private _viewMatrix: any;
 
   constructor(eye: Vector3 = new Vector3(0, 0, 5),
               target: Vector3 = Vector3.create(),
@@ -51,11 +47,9 @@ export default class Camera {
   }
 
   update() {
-    this.calculateProjection();
     this.calculateView();
   }
 
-  // https://github.com/Emre-Kul/YTU-WEBGL/blob/master/Common/MV.js#L434
   protected calculateView() {
     const v = Vector3.subtract(this._target, this._eye);
     v.normalize();
@@ -69,18 +63,6 @@ export default class Camera {
                                       Vector4.create(v, - Vector3.dot(v, this._eye)),
                                       Vector4.create());
   }
-  // https://github.com/Emre-Kul/YTU-WEBGL/blob/master/Common/MV.js#L496
-  protected calculateProjection(fovy: number = 45, aspect: number = 1, near: number = -10, far: number = 100) {
-    this._projectionMtr = Matrix4.create();
-    const f = 1.0 / Math.tan((fovy * Math.PI / 180.0) / 2);
-    const d = far - near;
 
-    this._projectionMtr.matrix[0][0] = f / aspect;
-    this._projectionMtr.matrix[1][1] = f;
-    this._projectionMtr.matrix[2][2] = -(near + far) / d;
-    this._projectionMtr.matrix[2][3] = -2 * near * far / d;
-    this._projectionMtr.matrix[3][2] = -1;
-    this._projectionMtr.matrix[3][3] = 0.0;
-  }
 
 }
