@@ -4,15 +4,18 @@ export default class Mesh {
   public vertices: number[];
   public indices: number[];
   public textureVertices: number[];
+  public normals: number[];
   public color: Color; // this will be array
 
   constructor(vertices: number[] = [],
               indices: number[] = [],
               textureVertices: number[] = [],
+              normals: number[] = [],
               color: Color = new Color()) {
     this.vertices = vertices;
     this.indices = indices;
     this.textureVertices = textureVertices;
+    this.normals = normals;
     this.color = color;
   }
 

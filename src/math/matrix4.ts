@@ -134,6 +134,146 @@ export default class Matrix4 {
       [0.0, 0.0, 0.0, 1.0],
     ];
   }
-  // rotate(vec: Vector3) {}
 
+  static inverse(m: Matrix4) {
+    const a = Matrix4.create();
+    const d = Matrix4.det4(m);
+
+    const a00 = [
+      Vector3.create(m.data[1][1], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[2][1], m.data[2][2], m.data[2][3]),
+      Vector3.create(m.data[3][1], m.data[3][2], m.data[3][3]),
+    ];
+    const a01 = [
+      Vector3.create(m.data[1][0], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[2][0], m.data[2][2], m.data[2][3]),
+      Vector3.create(m.data[3][0], m.data[3][2], m.data[3][3]),
+    ];
+    const a02 = [
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][3]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][3]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][3]),
+    ];
+    const a03 = [
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][2]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][2]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][2]),
+    ];
+    const a10 = [
+      Vector3.create(m.data[0][1], m.data[0][2], m.data[0][3]),
+      Vector3.create(m.data[2][1], m.data[2][2], m.data[2][3]),
+      Vector3.create(m.data[3][1], m.data[3][2], m.data[3][3]),
+    ];
+    const a11 = [
+      Vector3.create(m.data[0][0], m.data[0][2], m.data[0][3]),
+      Vector3.create(m.data[2][0], m.data[2][2], m.data[2][3]),
+      Vector3.create(m.data[3][0], m.data[3][2], m.data[3][3]),
+    ];
+    const a12 = [
+      Vector3.create(m.data[0][0], m.data[0][1], m.data[0][3]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][3]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][3]),
+    ];
+    const a13 = [
+      Vector3.create(m.data[0][0], m.data[0][1], m.data[0][2]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][2]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][2]),
+    ];
+    const a20 = [
+      Vector3.create(m.data[0][1], m.data[0][2], m.data[0][3]),
+      Vector3.create(m.data[1][1], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[3][1], m.data[3][2], m.data[3][3]),
+    ];
+    const a21 = [
+      Vector3.create(m.data[0][0], m.data[0][2], m.data[0][3]),
+      Vector3.create(m.data[1][0], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[3][0], m.data[3][2], m.data[3][3]),
+    ];
+    const a22 = [
+      Vector3.create(m.data[0][0], m.data[0][1], m.data[0][3]),
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][3]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][3]),
+    ];
+    const a23 = [
+      Vector3.create(m.data[0][0], m.data[0][1], m.data[0][2]),
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][2]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][2]),
+    ];
+
+    const a30 = [
+      Vector3.create(m.data[0][1], m.data[0][2], m.data[0][3]),
+      Vector3.create(m.data[1][1], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[2][1], m.data[2][2], m.data[2][3]),
+    ];
+    const a31 = [
+      Vector3.create(m.data[0][0], m.data[0][2], m.data[0][3]),
+      Vector3.create(m.data[1][0], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[2][0], m.data[2][2], m.data[2][3]),
+    ];
+    const a32 = [
+      Vector3.create(m.data[0][0], m.data[0][1], m.data[0][3]),
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][3]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][3]),
+    ];
+    const a33 = [
+      Vector3.create(m.data[0][0], m.data[0][1], m.data[0][2]),
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][2]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][2]),
+    ];
+
+    a.data[0][0] = Matrix4.det3(a00) / d;
+    a.data[0][1] = -Matrix4.det3(a10) / d;
+    a.data[0][2] = Matrix4.det3(a20) / d;
+    a.data[0][3] = -Matrix4.det3(a30) / d;
+    a.data[1][0] = -Matrix4.det3(a01) / d;
+    a.data[1][1] = Matrix4.det3(a11) / d;
+    a.data[1][2] = -Matrix4.det3(a21) / d;
+    a.data[1][3] = Matrix4.det3(a31) / d;
+    a.data[2][0] = Matrix4.det3(a02) / d;
+    a.data[2][1] = -Matrix4.det3(a12) / d;
+    a.data[2][2] = Matrix4.det3(a22) / d;
+    a.data[2][3] = -Matrix4.det3(a32) / d;
+    a.data[3][0] = -Matrix4.det3(a03) / d;
+    a.data[3][1] = Matrix4.det3(a13) / d;
+    a.data[3][2] = -Matrix4.det3(a23) / d;
+    a.data[3][3] = Matrix4.det3(a33) / d;
+
+    return a;
+  }
+
+  static det4(m: Matrix4): number {
+    const m0 = [
+      Vector3.create(m.data[1][1], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[2][1], m.data[2][2], m.data[2][3]),
+      Vector3.create(m.data[3][1], m.data[3][2], m.data[3][3]),
+    ];
+    const m1 = [
+      Vector3.create(m.data[1][0], m.data[1][2], m.data[1][3]),
+      Vector3.create(m.data[2][0], m.data[2][2], m.data[2][3]),
+      Vector3.create(m.data[3][0], m.data[3][2], m.data[3][3]),
+    ];
+    const m2 = [
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][3]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][3]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][3]),
+    ];
+    const m3 = [
+      Vector3.create(m.data[1][0], m.data[1][1], m.data[1][2]),
+      Vector3.create(m.data[2][0], m.data[2][1], m.data[2][2]),
+      Vector3.create(m.data[3][0], m.data[3][1], m.data[3][2]),
+    ];
+    return m.data[0][0] * Matrix4.det3(m0) - m.data[0][1] * Matrix4.det3(m1)
+        + m.data[0][2] * Matrix4.det3(m2) - m.data[0][3] * Matrix4.det3(m3);
+  }
+
+  static det3(m: any): number {
+    const d = m[0].x * m[1].y * m[2].z
+        + m[0].y * m[1].z * m[2].x
+        + m[0].z * m[2].y * m[1].x
+        - m[2].x * m[1].y * m[0].z
+        - m[1].x * m[0].y * m[2].z
+        - m[0].x * m[1].z * m[2].y
+    ;
+    return d;
+  }
 }

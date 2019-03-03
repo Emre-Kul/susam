@@ -2,6 +2,7 @@ import { CustomWindow } from '../interfaces';
 import Shader from './shader';
 import Matrix4 from '../math/matrix4';
 import Vector4 from '../math/vector4';
+import Vector3 from "../math/vector3";
 
 export default class WebGL {
   public canvas: any;
@@ -27,7 +28,7 @@ export default class WebGL {
     this.context.clearDepth(1.0);
 
     // this.context.depthFunc(this.context.LEQUAL);
-    this.context.cullFace(this.context.FRONT);
+    // this.context.cullFace(this.context.FRONT);
 
   }
 
@@ -48,14 +49,17 @@ export default class WebGL {
 
   loadLocations(program: any) {
     const location: any = {};
-    location.position = this.context.getAttribLocation(program, 'vPosition');
-    location.texture = this.context.getAttribLocation(program, 'vTexture');
+    location.aPosition = this.context.getAttribLocation(program, 'aPosition');
+    location.aTexture = this.context.getAttribLocation(program, 'aTexture');
+    location.aNormal = this.context.getAttribLocation(program, 'aNormal');
 
-    location.model  = this.context.getUniformLocation(program, 'uModel');
-    location.view  = this.context.getUniformLocation(program, 'uView');
-    location.projection  = this.context.getUniformLocation(program, 'uProjection');
-    location.color = this.context.getUniformLocation(program, 'uColor');
-    location.sampler = this.context.getUniformLocation(program, 'uSampler');
+    location.uNormal  = this.context.getUniformLocation(program, 'uNormal');
+    location.uModel  = this.context.getUniformLocation(program, 'uModel');
+    location.uView  = this.context.getUniformLocation(program, 'uView');
+    location.uProjection  = this.context.getUniformLocation(program, 'uProjection');
+    location.uColor = this.context.getUniformLocation(program, 'uColor');
+    location.uSampler = this.context.getUniformLocation(program, 'uSampler');
+    location.uLightPoint = this.context.getUniformLocation(program, 'uLightPoint');
     return location;
   }
 
@@ -66,6 +70,10 @@ export default class WebGL {
 
   setUniformVec4(location: any, data: Vector4) {
     this.context.uniform4fv(location, [data.x, data.y, data.z, data.w]);
+  }
+
+  setUniformVec3(location: any, data: Vector3) {
+    this.context.uniform3fv(location, [data.x, data.y, data.z]);
   }
 
   bindBufferData(bufferType: string, data: any) {

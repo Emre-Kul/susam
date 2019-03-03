@@ -12,7 +12,7 @@ export default class GameObject {
   public shader: Shader;
   public renderer: MeshRenderer | null;
 
-  constructor(transform: Transform, mesh: Mesh, texture: Texture, shader: Shader) {
+  constructor(transform: Transform, mesh: Mesh, shader: Shader, texture: Texture) {
     this.transform = transform;
     this.mesh = mesh;
     this.texture = texture;

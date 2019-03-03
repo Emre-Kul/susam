@@ -8,34 +8,47 @@
     <link rel="stylesheet" href="../common/style.css">
 
     <script id="vertex-shader" type="x-shader/x-vertex">
-        attribute vec3 vPosition;
-        attribute vec2 vTexture;
+        attribute vec3 aPosition;
+        attribute vec3 aNormal;
+        attribute vec2 aTexture;
+
 
         uniform mat4 uModel;
         uniform mat4 uView;
         uniform mat4 uProjection;
+        uniform mat4 uNormal;
         uniform vec4 uColor;
+        uniform vec3 uLightPoint;
 
-        varying vec4 vvColor;
-        varying highp vec2 vvTexture;
+        varying highp vec2 vTexture;
+        varying highp float vLighting;
 
         void main() {
-            gl_Position = uProjection * uView * uModel * vec4(vPosition.x, vPosition.y, vPosition.z, 1.0);
-            vvColor = uColor;
-            vvTexture = vTexture;
+            // Vertexs
+            gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
+            vTexture = aTexture;
+
+            // Lighting
+
+            vec3 v_normal = (uNormal * vec4(aNormal, 1.0)).xyz;
+            vec3 surfaceWorldPosition = (uModel * vec4(aPosition, 1.0)).xyz;
+            vec3 surfaceToLight = uLightPoint - surfaceWorldPosition;
+            vLighting = dot(normalize(v_normal), normalize(surfaceToLight));
+
             }
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
         precision mediump float;
 
-        varying vec4 vvColor;
-        varying highp vec2 vvTexture;
+        varying highp vec2 vTexture;
+        varying highp float vLighting;
 
         uniform sampler2D uSampler;
 
         void main() {
-            gl_FragColor = texture2D(uSampler, vvTexture);
+            gl_FragColor = texture2D(uSampler, vTexture);
+            gl_FragColor.rgb *= vLighting;
         }
     </script>
 
