@@ -2,6 +2,9 @@ import GameObject from './game-object';
 import Scene from './scene';
 import Matrix4 from '../math/matrix4';
 import Vector3 from '../math/vector3';
+import { COLORING_TYPE } from './enums';
+import ColorMaterial from '../graphics/color-material';
+import TextureMaterial from '../graphics/texture-material';
 
 export default class MeshRenderer {
 
@@ -52,12 +55,16 @@ export default class MeshRenderer {
     this.scene.gl.setUniformMtr4(this.location.uProjection, this.scene.projection.matrix);
     this.scene.gl.setUniformMtr4(this.location.uModel, this.gameObject.transform.modelMatrix);
     this.scene.gl.setUniformMtr4(this.location.uNormal, this.normalMatrix);
-    this.scene.gl.setUniformVec4(this.location.uColor, this.gameObject.mesh.color.code);
     this.scene.gl.setUniformVec3(this.location.uLightPoint, Vector3.create(0, 0, 0));
-    if (this.gameObject.texture.data) {
-      this.scene.gl.context.bindTexture(this.scene.gl.context.TEXTURE_2D, this.gameObject.texture.data);
+
+    if (this.gameObject.material.coloringType === COLORING_TYPE.COLOR) {
+      this.scene.gl.setUniformVec4(this.location.uColor, (this.gameObject.material as ColorMaterial).color.code);
+    } else if (this.gameObject.material.coloringType === COLORING_TYPE.TEXTURE) {
+      this.scene.gl.setUniform1i(this.location.uUseTexture, true);
+      this.scene.gl.context.bindTexture(this.scene.gl.context.TEXTURE_2D, (this.gameObject.material as TextureMaterial).texture.data);
     }
-    this.scene.gl.draw(this.gameObject.mesh.indices.length);
+
+    this.scene.gl.draw(this.gameObject.mesh.indices.length, this.gameObject.material.drawType);
   }
 
   private calculateNormalMatrix(model: Matrix4, view: Matrix4) {

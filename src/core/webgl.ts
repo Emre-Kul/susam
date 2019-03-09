@@ -2,7 +2,7 @@ import { CustomWindow } from '../interfaces';
 import Shader from './shader';
 import Matrix4 from '../math/matrix4';
 import Vector4 from '../math/vector4';
-import Vector3 from "../math/vector3";
+import Vector3 from '../math/vector3';
 
 export default class WebGL {
   public canvas: any;
@@ -24,7 +24,7 @@ export default class WebGL {
     this.context.enable(this.context.DEPTH_TEST);
     this.context.enable(this.context.CULL_FACE);
     this.context.depthMask(false);
-    this.context.clearColor(0.95, 0.95, 0.95, 1.0);
+    this.context.clearColor(0.0, 0.0, 0.0, 1.0);
     this.context.clearDepth(1.0);
 
     // this.context.depthFunc(this.context.LEQUAL);
@@ -36,8 +36,8 @@ export default class WebGL {
     this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
   }
 
-  draw(length: number, offset: number = 0) {
-    this.context.drawElements(this.context.TRIANGLES, length, this.context.UNSIGNED_SHORT, offset);
+  draw(length: number, drawType: string = 'TRIANGLES', offset: number = 0) {
+    this.context.drawElements(this.context[drawType], length, this.context.UNSIGNED_SHORT, offset);
   }
   useShader(shader: Shader) {
     const program = this.context.createProgram();
@@ -60,6 +60,8 @@ export default class WebGL {
     location.uColor = this.context.getUniformLocation(program, 'uColor');
     location.uSampler = this.context.getUniformLocation(program, 'uSampler');
     location.uLightPoint = this.context.getUniformLocation(program, 'uLightPoint');
+    location.uUseTexture = this.context.getUniformLocation(program, 'uUseTexture');
+
     return location;
   }
 
@@ -74,6 +76,10 @@ export default class WebGL {
 
   setUniformVec3(location: any, data: Vector3) {
     this.context.uniform3fv(location, [data.x, data.y, data.z]);
+  }
+
+  setUniform1i(location: any, data: any) {
+    this.context.uniform1i(location, data);
   }
 
   bindBufferData(bufferType: string, data: any) {

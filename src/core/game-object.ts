@@ -1,22 +1,22 @@
 import Transform from './transform';
 import Mesh from './mesh';
-import Texture from '../graphics/texture';
 import Shader from './shader';
 import MeshRenderer from './mesh-renderer';
 import Scene from './scene';
+import Material from '../graphics/material';
 
 export default class GameObject {
   public transform: Transform;
   public mesh: Mesh;
-  public texture: Texture;
   public shader: Shader;
   public renderer: MeshRenderer | null;
+  public material: Material;
 
-  constructor(transform: Transform, mesh: Mesh, shader: Shader, texture: Texture) {
+  constructor(transform: Transform, mesh: Mesh, shader: Shader, material: Material) {
     this.transform = transform;
     this.mesh = mesh;
-    this.texture = texture;
     this.shader = shader;
+    this.material = material;
     this.renderer = null;
   }
 

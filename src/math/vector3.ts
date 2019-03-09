@@ -41,6 +41,15 @@ export default class Vector3 {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
+  length2() {
+    return this.x * this.x + this.y * this.y + this.z * this.z;
+  }
+
+  normalizeWith(length: number) {
+    if (this.x === 0 && this.y === 0 && this.z === 0) return;
+    this.change(this.x / length, this.y / length, this.z / length);
+  }
+
   normalize() {
     if (this.x === 0 && this.y === 0 && this.z === 0) return;
     const length = this.length();
@@ -54,11 +63,9 @@ export default class Vector3 {
   }
 
   multiply(vec: Vector3) {
-    console.log('Mult vec : ', vec, this);
     this.x = this.x * vec.x;
     this.y = this.y * vec.y;
     this.z = this.z * vec.z;
-    console.log('Mult vec : ', vec, this);
   }
 
   static dot(vec1: Vector3, vec2: Vector3): number {
