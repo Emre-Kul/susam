@@ -14,10 +14,10 @@ function createScene() {
 }
 
 function createListeners() {
-  window.addEventListener('resize', G.scene.resize.bind(G.scene));
+  window.addEventListener('resize', G.scene.resize);
   document.onkeydown = (e) => { G.KEY[e.key] = true };
   document.onkeyup = (e) => { G.KEY[e.key] = false };
-  document.addEventListener('click', openFullscreen);
+  document.addEventListener('click', G.scene.setFullScreen);
 }
 
 function loadResources() {
@@ -57,7 +57,7 @@ function createObjects() {
     obj = new GE.GameObject(transform, cube.mesh, shader, new GE.TextureMaterial(texture));
    }
    else {
-    obj = new GE.GameObject(transform, cube.mesh, shader, new GE.ColorMaterial(color, GE.DRAW_TYPE.LINE_LOOP));
+    obj = new GE.GameObject(transform, cube.mesh, shader, new GE.ColorMaterial(color));
    }
 
    G.objects.push(obj);
@@ -121,18 +121,6 @@ function init() {
   G.scene.run(render);
 }
 
-function openFullscreen() {
- const elem = document.getElementById("ge-canvas");
- if (elem.requestFullscreen) {
-  elem.requestFullscreen();
- } else if (elem.mozRequestFullScreen) { /* Firefox */
-  elem.mozRequestFullScreen();
- } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-  elem.webkitRequestFullscreen();
- } else if (elem.msRequestFullscreen) { /* IE/Edge */
-  elem.msRequestFullscreen();
- }
-}
 
 window.onload = init;
 // window.addEventListener('resize', () => {alert("OK")});

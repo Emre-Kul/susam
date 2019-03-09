@@ -7,7 +7,6 @@ import Window from './window';
 export default class Scene {
   public camera: Camera;
   public resourceManager: ResourceManager;
-
   public readonly gl: WebGL;
   public projection: Projection;
 
@@ -16,6 +15,9 @@ export default class Scene {
     this.camera = camera;
     this.resourceManager = new ResourceManager(this.gl);
     this.projection = new Projection();
+
+    this.setFullScreen = this.setFullScreen.bind(this);
+    this.resize = this.resize.bind(this);
   }
 
   init() {
@@ -37,6 +39,10 @@ export default class Scene {
     this.gl.context.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.projection.aspect = this.gl.canvas.width / this.gl.canvas.height;
     this.projection.calculate();
+  }
+
+  setFullScreen() {
+    Window.setFullScreen(this.gl.canvas);
   }
 
   private requestFrame() {

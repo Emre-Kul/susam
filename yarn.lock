@@ -21,6 +21,11 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
+"@types/cannon@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@types/cannon/-/cannon-0.1.3.tgz#cfebd11336e66334087008234d2883348be9b329"
+  integrity sha512-ErEYawe3rTNJXkkuGXmt2RR2A2coP36RHlpQVVvDIt4NwarVKVauiWvvu5YgSTkxyTzGVkS7cLxTLjMYT8MQ4A==
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -518,6 +523,11 @@ camelcase@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.0.0.tgz#03295527d58bd3cd4aa75363f35b2e8d97be2f42"
   integrity sha512-faqwZqnWxbxn+F1d399ygeamQNy3lPp/H9H6rNrqYh4FSVCtcY+3cub1MxA8o9mDd55mM8Aghuu/kuyYA6VTsA==
+
+cannon@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/cannon/-/cannon-0.6.2.tgz#1e7bc72dd5841982f3c104c2bc578bfa4fb1c572"
+  integrity sha1-HnvHLdWEGYLzwQTCvFeL+k+xxXI=
 
 chalk@^1.1.3:
   version "1.1.3"
