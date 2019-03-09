@@ -4,7 +4,7 @@ import Vector3 from '../math/vector3';
 export default class Color {
   code: Vector4;
 
-  constructor(code: Vector4 = Vector4.create()) {
+  constructor(code: Vector4 = Vector4.create(Vector3.create(1, 1, 1), 1)) {
     this.code = code;
   }
   setRed() {

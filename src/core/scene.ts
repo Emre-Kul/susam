@@ -3,21 +3,25 @@ import Camera from './camera';
 import ResourceManager from './resource-manager';
 import Projection from './projection';
 import Window from './window';
+import PointLight from './point-light';
 
 export default class Scene {
   public camera: Camera;
   public resourceManager: ResourceManager;
   public readonly gl: WebGL;
   public projection: Projection;
+  public light: PointLight;
 
   constructor(camera = new Camera()) {
     this.gl = new WebGL();
     this.camera = camera;
     this.resourceManager = new ResourceManager(this.gl);
     this.projection = new Projection();
+    this.light = new PointLight();
 
     this.setFullScreen = this.setFullScreen.bind(this);
     this.resize = this.resize.bind(this);
+
   }
 
   init() {

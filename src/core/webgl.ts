@@ -59,8 +59,10 @@ export default class WebGL {
     location.uProjection  = this.context.getUniformLocation(program, 'uProjection');
     location.uColor = this.context.getUniformLocation(program, 'uColor');
     location.uSampler = this.context.getUniformLocation(program, 'uSampler');
-    location.uLightPoint = this.context.getUniformLocation(program, 'uLightPoint');
-    location.uUseTexture = this.context.getUniformLocation(program, 'uUseTexture');
+    location.uLightPosition = this.context.getUniformLocation(program, 'uLightPosition');
+    location.uLightColor = this.context.getUniformLocation(program, 'uLightColor');
+    location.uEnableTexture = this.context.getUniformLocation(program, 'uEnableTexture');
+    location.uEnableLight = this.context.getUniformLocation(program, 'uEnableLight');
 
     return location;
   }

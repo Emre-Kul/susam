@@ -3,7 +3,7 @@
 const CUBE_COUNT = 1000;
 const WORLD_SIZE = 100;
 const G = {
-  KEY : {}
+  KEY : {},
 };
 
 /* CREATION FUNCS */
@@ -37,11 +37,14 @@ function randomTexture() {
 }
 
 function createObjects() {
-
   G.objects = [];
   const cube = new GE.Cube();
   cube.createMesh();
   const shader = G.scene.resourceManager.getShader("shader-default");
+
+  G.LIGHT_OBJ = new GE.GameObject(new GE.Transform(), cube.mesh, shader, new GE.ColorMaterial(new GE.Color()) );
+  G.LIGHT_OBJ.material.applyLighting = false;
+
   for(let i = 0;i < CUBE_COUNT;i++){
    const texture = G.scene.resourceManager.getTexture(randomTexture());
    const color = new GE.Color();
@@ -59,7 +62,7 @@ function createObjects() {
    else {
     obj = new GE.GameObject(transform, cube.mesh, shader, new GE.ColorMaterial(color));
    }
-
+   // obj.material.applyLighting = false;
    G.objects.push(obj);
   }
 
@@ -76,6 +79,7 @@ function render() {
    if(G.KEY["c"]) G.objects[i].transform.position = GE.Physics.move(p, GE.Vector3.create(), 0.1);
    G.objects[i].render(G.scene);
   }
+  G.LIGHT_OBJ.render(G.scene);
   G.scene.run(render);
 }
 
@@ -106,6 +110,15 @@ const moveCamera = () => {
  if(G.KEY["ArrowRight"]){
   lx = -10;
  }
+ if(G.KEY["o"]){
+  G.scene.light.position = GE.Physics.move(G.scene.light.position, new GE.Vector3(0, 0, 100), 1);
+ }
+ if(G.KEY["l"]){
+  G.scene.light.position = GE.Physics.move(G.scene.light.position, new GE.Vector3(0, 0, -100), 1);
+ }
+ G.LIGHT_OBJ.transform.position = G.scene.light.position;
+ console.log(G.scene.light.position);
+
  if(lx !== 0 || ly !== 0 || mx !== 0 || my !== 0){
   G.scene.camera.point2(lx, ly);
   G.scene.camera.moveForward(my);
