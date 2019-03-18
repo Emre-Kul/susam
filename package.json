@@ -7,7 +7,7 @@
     "example": "example"
   },
   "scripts": {
-    "start:example": "node serve-examples.js",
+    "start": "node serve-examples.js",
     "lint": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts",
     "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix",
     "bundle": "node_modules/.bin/webpack",
