@@ -36,7 +36,7 @@
                 vec3 v_normal = (uNormal * vec4(aNormal, 1.0)).xyz;
                 vec3 surfaceWorldPosition = (uModel * vec4(aPosition, 1.0)).xyz;
                 vec3 surfaceToLight = uLightPosition - surfaceWorldPosition;
-                float light = dot(normalize(v_normal), normalize(surfaceToLight));
+                float light = clamp(dot(normalize(v_normal), normalize(surfaceToLight)), 0.0, 1.0);
                 vLighting = vec4(light, light, light, 1.0);
                 vLighting *= uLightColor;
             }
@@ -65,6 +65,7 @@
                 gl_FragColor = vColor;
             }
             gl_FragColor *= vLighting;
+
         }
     </script>
 

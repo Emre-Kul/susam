@@ -7,7 +7,7 @@
     "example": "example"
   },
   "scripts": {
-    "start:example": "node ./example/index.js",
+    "start:example": "node serve-examples.js",
     "lint": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts",
     "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix",
     "bundle": "node_modules/.bin/webpack",
@@ -26,6 +26,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "cannon": "^0.6.2"
+    "cannon": "^0.6.2",
+    "express": "^4.16.4"
   }
 }

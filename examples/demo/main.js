@@ -1,7 +1,7 @@
 /* GLOBALS */
 
-const CUBE_COUNT = 1000;
-const WORLD_SIZE = 100;
+const CUBE_COUNT = 100;
+const WORLD_SIZE = 5;
 const G = {
   KEY : {},
 };
