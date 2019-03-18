@@ -7,7 +7,8 @@
     "example": "example"
   },
   "scripts": {
-    "start": "yarn bundle && node serve-examples.js",
+    "start": "node serve-examples.js",
+    "postinstall": "node_modules/.bin/webpack",
     "lint": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts",
     "lint:fix": "node_modules/.bin/tslint src/*.ts src/**/*.ts test/*.ts test/**/*.ts --fix",
     "bundle": "node_modules/.bin/webpack",
