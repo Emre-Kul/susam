@@ -1,34 +1,33 @@
 import WebGL from '../core/webgl';
 import Shader from '../core/shader';
 import Logger from '../utils/logger';
+import Loader from './loader';
 
-export default class ShaderLoader {
+export default class ShaderLoader extends Loader {
 
   public gl: WebGL;
-  public vertexId: string;
-  public fragmentId: string;
 
-  constructor(gl: WebGL, vertexId: string, fragmentId: string) {
+  constructor(gl: WebGL, url: string = '') {
+    super(url);
     this.gl = gl;
-    this.vertexId = vertexId;
-    this.fragmentId = fragmentId;
   }
 
   load() {
-    const vertex = this.loadShader(this.vertexId, this.gl.context.VERTEX_SHADER);
-    const fragment = this.loadShader(this.fragmentId, this.gl.context.FRAGMENT_SHADER);
-    return new Shader(vertex, fragment);
+    const shader = new Shader();
+    Promise.all(
+      [this.requestUrl(`${this.url}/vertex.shader`),
+        this.requestUrl(`${this.url}/fragment.shader`)],
+    ).then((data) => {
+      shader.vertex = this.loadShader(data[0] as any, this.gl.context.VERTEX_SHADER);
+      shader.fragment = this.loadShader(data[1] as any, this.gl.context.FRAGMENT_SHADER);
+      shader.ready = true;
+    });
+    return shader;
   }
 
-  private loadShader(id: string, type: any) {
-    const elem: any = document.getElementById(id);
-    if (!elem) {
-      Logger.error(`Unable to load ${id}`);
-      return -1;
-    }
-
+  private loadShader(data: string, type: any) {
     const shader = this.gl.context.createShader(type);
-    this.gl.context.shaderSource(shader, elem.text);
+    this.gl.context.shaderSource(shader, data);
     this.gl.context.compileShader(shader);
 
     if (!this.gl.context.getShaderParameter(shader, this.gl.context.COMPILE_STATUS)) {

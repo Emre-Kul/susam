@@ -15,12 +15,12 @@ export default class ResourceManager {
     this.gl = gl;
   }
 
-  loadTexture(id: string, image: any) {
-    this.load(id, 'TEXTURE', new TextureLoader(this.gl, image));
+  loadTexture(id: string, url: string) {
+    this.load(id, 'TEXTURE', new TextureLoader(this.gl, url));
   }
 
-  loadShader(id: string, vertexId: string, fragmentId: string) {
-    this.load(id, 'SHADER', new ShaderLoader(this.gl, vertexId, fragmentId));
+  loadShader(id: string, url: string) {
+    this.load(id, 'SHADER', new ShaderLoader(this.gl, url));
   }
 
   getTexture(id: string) {

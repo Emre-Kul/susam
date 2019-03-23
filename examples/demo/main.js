@@ -21,19 +21,18 @@ function createListeners() {
 }
 
 function loadResources() {
-  G.scene.resourceManager.loadShader("shader-default", "vertex-shader", "fragment-shader");
-  G.scene.resourceManager.loadTexture("texture-js", document.getElementById("js-texture"));
-  G.scene.resourceManager.loadTexture("texture-ytu", document.getElementById("ytu-texture"));
-  G.scene.resourceManager.loadTexture("texture-cube1", document.getElementById("cube1-texture"));
-  G.scene.resourceManager.loadTexture("texture-cube2", document.getElementById("cube2-texture"));
-  G.scene.resourceManager.loadTexture("texture-skybox", document.getElementById("skybox-texture"));
-  G.scene.resourceManager.loadTexture("texture-cube4", document.getElementById("cube4-texture"));
+  G.scene.resourceManager.loadShader("shader-default", "assets/shaders/");
+  G.scene.resourceManager.loadTexture("texture-ytu", "assets/ytu-logo.jpg");
+  G.scene.resourceManager.loadTexture("texture-js", "assets/js-logo.png");
+  G.scene.resourceManager.loadTexture("texture-cube1", "assets/cube1.png");
+  G.scene.resourceManager.loadTexture("texture-cube2", "assets/cube2.jpg");
+  G.scene.resourceManager.loadTexture("texture-skybox", "assets/skybox.jpg");
+  G.scene.resourceManager.loadTexture("texture-cube4", "assets/cube4.jpg");
 }
 
 function randomTexture() {
   const textureIds = ["texture-cube1", "texture-cube2", "texture-cube4", "texture-ytu", "texture-js"];
   return textureIds[Math.floor(Math.random() * textureIds.length)];
-
 }
 
 function createObjects() {
@@ -117,7 +116,7 @@ const moveCamera = () => {
   G.scene.light.position = GE.Physics.move(G.scene.light.position, new GE.Vector3(0, 0, -100), 1);
  }
  G.LIGHT_OBJ.transform.position = G.scene.light.position;
- console.log(G.scene.light.position);
+
 
  if(lx !== 0 || ly !== 0 || mx !== 0 || my !== 0){
   G.scene.camera.point2(lx, ly);

@@ -1,15 +1,15 @@
 import Texture from '../graphics/texture';
 import WebGL from '../core/webgl';
+import Loader from './loader';
 
-export default class TextureLoader {
+export default class TextureLoader extends Loader{
 
   public gl: WebGL;
+  private texture: any;
 
-  private readonly texture: Texture;
-
-  constructor(gl: any, image: any) {
+  constructor(gl: any, url: any) {
+    super(url);
     this.gl = gl;
-    this.texture = new Texture(image);
   }
 
   create() {
@@ -27,8 +27,19 @@ export default class TextureLoader {
   }
 
   load() {
+    this.texture = new Texture();
     this.create();
-    const image = this.texture.image;
+
+    this.texture.image = new Image();
+    this.texture.image.src = this.url;
+    this.texture.image.onload = () => {
+      this.bindTexture();
+    };
+
+    return this.texture;
+  }
+
+  private bindTexture() {
     this.gl.context.bindTexture(this.gl.context.TEXTURE_2D, this.texture.data);
     this.gl.context.texImage2D(
         this.gl.context.TEXTURE_2D,
@@ -36,8 +47,7 @@ export default class TextureLoader {
         this.gl.context.RGBA,
         this.gl.context.RGBA,
         this.gl.context.UNSIGNED_BYTE,
-        image);
+        this.texture.image);
     this.gl.context.generateMipmap(this.gl.context.TEXTURE_2D);
-    return this.texture;
   }
 }

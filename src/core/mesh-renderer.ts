@@ -49,6 +49,7 @@ export default class MeshRenderer {
   }
 
   render() {
+    if (!this.gameObject.shader.ready) return;
     if (!this.program) this.init();
     this.scene.gl.context.useProgram(this.program);
     this.loadMatrices();
