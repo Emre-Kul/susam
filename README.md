@@ -3,6 +3,14 @@
 
 URL : https://ek-susam.herokuapp.com/
 
+
+#### Install & Run Demo
+```bash     
+    yarn
+    yarn bundle
+    yarn start
+```
+* Demo address for local => http://localhost:3333
 ## Issues
 
 * [ ] physics engine implementation
@@ -10,6 +18,6 @@ URL : https://ek-susam.herokuapp.com/
 * [ ] fps-camera bug fixes
 * [ ] 2D hub implementation
 * [ ] demo 
-
+* [ ] add more basic 3d shapes (sphere etc)
 ## Authors
 * Emre Kul

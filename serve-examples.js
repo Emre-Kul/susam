@@ -12,6 +12,6 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, './examples/')));
 app.use(express.static(path.join(__dirname, './bundle/')));
 
-app.listen(process.env.PORT || 3333, () => {
- console.log("Server Started!");
+const server = app.listen(process.env.PORT || 3333, () => {
+ console.log("Server Started at " + server.address().address + " port : " + server.address().port);
 });

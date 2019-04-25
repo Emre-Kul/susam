@@ -37,11 +37,10 @@ function randomTexture() {
 
 function createObjects() {
   G.objects = [];
-  const cube = new GE.Cube();
-  cube.createMesh();
+  const cube = new GE.CubeGeometry();
   const shader = G.scene.resourceManager.getShader("shader-default");
 
-  G.LIGHT_OBJ = new GE.GameObject(new GE.Transform(), cube.mesh, shader, new GE.ColorMaterial(new GE.Color()) );
+  G.LIGHT_OBJ = new GE.GameObject(new GE.Transform(), cube.getMesh(), shader, new GE.ColorMaterial(new GE.Color()) );
   G.LIGHT_OBJ.material.applyLighting = false;
 
   for(let i = 0;i < CUBE_COUNT;i++){
@@ -56,10 +55,10 @@ function createObjects() {
    // transform.scale = GE.Vector3.create(rand, rand, rand);
    let obj;
    if(i % 2 === 0){
-    obj = new GE.GameObject(transform, cube.mesh, shader, new GE.TextureMaterial(texture));
+    obj = new GE.GameObject(transform, cube.getMesh(), shader, new GE.TextureMaterial(texture));
    }
    else {
-    obj = new GE.GameObject(transform, cube.mesh, shader, new GE.ColorMaterial(color));
+    obj = new GE.GameObject(transform, cube.getMesh(), shader, new GE.ColorMaterial(color));
    }
    // obj.material.applyLighting = false;
    G.objects.push(obj);
