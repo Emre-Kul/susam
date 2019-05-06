@@ -4,6 +4,8 @@ import ResourceManager from './resource-manager';
 import Projection from './projection';
 import Window from './window';
 import PointLight from './point-light';
+import World from '../physics/world';
+import Timer from './timer';
 
 export default class Scene {
   public camera: Camera;
@@ -11,13 +13,17 @@ export default class Scene {
   public readonly gl: WebGL;
   public projection: Projection;
   public light: PointLight;
+  public world: World | null;
+  public timer: Timer;
 
-  constructor(camera = new Camera()) {
+  constructor(camera = new Camera(), world: World | null) {
     this.gl = new WebGL();
     this.camera = camera;
     this.resourceManager = new ResourceManager(this.gl);
     this.projection = new Projection();
     this.light = new PointLight();
+    this.world = world;
+    this.timer = new Timer();
 
     this.setFullScreen = this.setFullScreen.bind(this);
     this.resize = this.resize.bind(this);
@@ -31,7 +37,14 @@ export default class Scene {
   }
 
   run(cb: any) {
-    this.requestFrame()(cb);
+    // TODO: CLEAR MAGIC NUMBERS
+    this.timer.tick();
+    const dt = this.timer.getDiff() / 1000;
+    const requestFrameTime = dt < 1000 / 60 ? 1.0 / 60 : dt;
+    if (this.world) {
+      this.world.step(1.0 / 60, requestFrameTime, 3);
+    }
+    this.requestFrame()(cb, requestFrameTime);
   }
 
   clear() {
@@ -56,7 +69,9 @@ export default class Scene {
         w.mozRequestAnimationFrame ||
         w.oRequestAnimationFrame ||
         w.msRequestAnimationFrame ||
-        function (cb: any) { window.setTimeout(cb, 1000 / 60); };
+        function (cb: any, time: number) {
+          window.setTimeout(cb, time);
+        };
   }
 
 }
