@@ -1,4 +1,4 @@
-import { World as CWorld } from 'cannon';
+import { World as CWorld} from 'cannon';
 import Body from './body';
 
 export default class World {
@@ -14,7 +14,7 @@ export default class World {
   }
 
   addBody(body: Body) {
-    this.world.addBody(body as any);
+    this.world.addBody(body.cBody);
   }
 
   step(fixedTimeStep: number, dt: number, maxSubSteps: number) {

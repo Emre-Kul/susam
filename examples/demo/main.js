@@ -7,27 +7,28 @@ const G = {
 };
 
 /* CREATION FUNCS */
-function createScene() {
-  G.scene = new GE.Scene(new GE.FpsCamera(0.1));
-  G.scene.init();
-  G.scene.clear();
+function createGame() {
+  const scene = new GE.Scene(new GE.FpsCamera(0.1));
+  G.game = new GE.Game(scene);
+  G.game.init();
+  G.game.scene.clear();
 }
 
 function createListeners() {
-  window.addEventListener('resize', G.scene.resize);
+  window.addEventListener('resize', G.game.scene.resize);
   document.onkeydown = (e) => { G.KEY[e.key] = true };
   document.onkeyup = (e) => { G.KEY[e.key] = false };
-  document.addEventListener('click', G.scene.setFullScreen);
+  document.addEventListener('click', G.game.scene.setFullScreen);
 }
 
 function loadResources() {
-  G.scene.resourceManager.loadShader("shader-default", "assets/shaders/");
-  G.scene.resourceManager.loadTexture("texture-ytu", "assets/ytu-logo.jpg");
-  G.scene.resourceManager.loadTexture("texture-js", "assets/js-logo.png");
-  G.scene.resourceManager.loadTexture("texture-cube1", "assets/cube1.png");
-  G.scene.resourceManager.loadTexture("texture-cube2", "assets/cube2.jpg");
-  G.scene.resourceManager.loadTexture("texture-skybox", "assets/skybox.jpg");
-  G.scene.resourceManager.loadTexture("texture-cube4", "assets/cube4.jpg");
+  G.game.resourceManager.loadShader("shader-default", "assets/shaders/");
+  G.game.resourceManager.loadTexture("texture-ytu", "assets/ytu-logo.jpg");
+  G.game.resourceManager.loadTexture("texture-js", "assets/js-logo.png");
+  G.game.resourceManager.loadTexture("texture-cube1", "assets/cube1.png");
+  G.game.resourceManager.loadTexture("texture-cube2", "assets/cube2.jpg");
+  G.game.resourceManager.loadTexture("texture-skybox", "assets/skybox.jpg");
+  G.game.resourceManager.loadTexture("texture-cube4", "assets/cube4.jpg");
 }
 
 function randomTexture() {
@@ -36,23 +37,20 @@ function randomTexture() {
 }
 
 function createObjects() {
-  G.objects = [];
   const cube = new GE.CubeGeometry();
-  const shader = G.scene.resourceManager.getShader("shader-default");
+  const shader = G.game.resourceManager.getShader("shader-default");
 
-  G.LIGHT_OBJ = new GE.GameObject(new GE.Transform(), cube.getMesh(), shader, new GE.ColorMaterial(new GE.Color()) );
+  G.LIGHT_OBJ = new GE.GameObject(new GE.Transform(), cube.getMesh(), shader, new GE.ColorMaterial(new GE.Color()), new GE.Body());
   G.LIGHT_OBJ.material.applyLighting = false;
+  G.game.addObject(G.LIGHT_OBJ);
 
-  for(let i = 0;i < CUBE_COUNT;i++){
-   const texture = G.scene.resourceManager.getTexture(randomTexture());
+  for(let i = 1;i < CUBE_COUNT;i++){
+   const texture = G.game.resourceManager.getTexture(randomTexture());
    const color = new GE.Color();
    color.setRandom();
    const transform = new GE.Transform();
    transform.position = GE.Vector3.create(WORLD_SIZE / 2 - Math.random() * WORLD_SIZE, WORLD_SIZE / 2 - Math.random() * WORLD_SIZE, WORLD_SIZE / 2 - Math.random() * WORLD_SIZE);
 
-
-   // transform.position = GE.Vector3.create(rand * i, 0, 0);
-   // transform.scale = GE.Vector3.create(rand, rand, rand);
    let obj;
    if(i % 2 === 0){
     obj = new GE.GameObject(transform, cube.getMesh(), shader, new GE.TextureMaterial(texture));
@@ -61,24 +59,23 @@ function createObjects() {
     obj = new GE.GameObject(transform, cube.getMesh(), shader, new GE.ColorMaterial(color));
    }
    // obj.material.applyLighting = false;
-   G.objects.push(obj);
+   G.game.addObject(obj);
   }
+
 
 
 }
 
 function render() {
   moveCamera();
-  G.scene.clear();
-  for(let i = 0;i < G.objects.length;i++) {
-   const r = G.objects[i].transform.rotate;
-   const p = G.objects[i].transform.position;
-   if(i%2 === 0) G.objects[i].transform.rotate = new GE.Vector3(r.x + Math.random(), r.y + Math.random(), r.z + Math.random());
-   if(G.KEY["c"]) G.objects[i].transform.position = GE.Physics.move(p, GE.Vector3.create(), 0.1);
-   G.objects[i].render(G.scene);
+  for(let i = 1;i < G.game.objects.length;i++) {
+   const r = G.game.objects[i].transform.rotate;
+   const p = G.game.objects[i].transform.position;
+   if (i % 2 === 0) G.game.objects[i].transform.rotate = new GE.Vector3(r.x + Math.random(), r.y + Math.random(), r.z + Math.random());
+   if (G.KEY["c"]) G.game.objects[i].transform.position = GE.Physics.move(p, GE.Vector3.create(), 0.1);
   }
-  G.LIGHT_OBJ.render(G.scene);
-  G.scene.run(render);
+  G.game.render();
+  G.game.run(render);
 }
 
 const moveCamera = () => {
@@ -109,29 +106,28 @@ const moveCamera = () => {
   lx = -10;
  }
  if(G.KEY["o"]){
-  G.scene.light.position = GE.Physics.move(G.scene.light.position, new GE.Vector3(0, 0, 100), 1);
+  G.game.scene.light.position = GE.Physics.move(G.game.scene.light.position, new GE.Vector3(0, 0, 100), 1);
  }
  if(G.KEY["l"]){
-  G.scene.light.position = GE.Physics.move(G.scene.light.position, new GE.Vector3(0, 0, -100), 1);
+  G.game.scene.light.position = GE.Physics.move(G.game.scene.light.position, new GE.Vector3(0, 0, -100), 1);
  }
- G.LIGHT_OBJ.transform.position = G.scene.light.position;
+ // G.LIGHT_OBJ.transform.position = G.game.scene.light.position;
 
 
  if(lx !== 0 || ly !== 0 || mx !== 0 || my !== 0){
-  G.scene.camera.point2(lx, ly);
-  G.scene.camera.moveForward(my);
+  G.game.scene.camera.point2(lx, ly);
+  G.game.scene.camera.moveForward(my);
  }
 
 };
 
 function init() {
-  createScene();
+  createGame();
   createListeners();
   loadResources();
   createObjects();
-  G.scene.run(render);
+  G.game.run(render);
 }
 
 
 window.onload = init;
-// window.addEventListener('resize', () => {alert("OK")});
