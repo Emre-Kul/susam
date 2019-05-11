@@ -52,7 +52,7 @@ export default class Transform {
     this._rotate = rotate;
     this._rotationAngle = rotationAngle;
     this.modelMatrix = Matrix4.create();
-
+    this.calculateModelMatrix();
   }
 
   private calculateModelMatrix() {

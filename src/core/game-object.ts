@@ -34,7 +34,7 @@ export default class GameObject {
   public updateObject() {
     if (this.body) {
       const p = this.body.cBody.position;
-      this.transform.position = new Vector3(p.x, p.y, p.z);
+      // this.transform.position = new Vector3(p.x, p.y, p.z);
     }
   }
 }
