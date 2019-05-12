@@ -30,7 +30,7 @@ function createObjects() {
  createGround(G.game);
  createRandomObj(G.game, 100);
  createLight(G.game);
- G.game.sortObjectsByCamera(2);
+ G.game.sortObjectsByCamera(1);
 }
 
 function render() {
@@ -43,16 +43,16 @@ const moveCamera = () => {
  let lx = 0,ly = 0;
  let mx = 0,my = 0;
  if(G.KEY["a"]){
-  mx = 0.1;
+  mx = 0.05;
  }
  if(G.KEY["w"]){
-  my = 0.1;
+  my = 0.05;
  }
  if(G.KEY["s"]){
-  my = -0.1;
+  my = -0.05;
  }
  if(G.KEY["d"]){
-  mx = -0.1;
+  mx = -0.05;
  }
  if(G.KEY["ArrowLeft"]){
   lx = 1;
@@ -71,7 +71,10 @@ const moveCamera = () => {
   G.game.scene.camera.point(lx, ly);
   G.game.scene.camera.moveForward(my);
   G.game.scene.camera.moveSide(mx);
-  G.game.sortObjectsByCamera(2);
+  G.game.sortObjectsByCamera(1);
+  const t = G.game.scene.camera.target;
+  const e = G.game.scene.camera.eye;
+  console.log(GE.Vector3.subtract(t, e).length2());
  }
 
  // G.game.objects[2].transform.position = G.game.scene.camera.target;

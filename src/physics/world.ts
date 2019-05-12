@@ -1,4 +1,4 @@
-import { World as CWorld} from 'cannon';
+import { World as CWorld, NaiveBroadphase } from 'cannon';
 import Body from './body';
 
 export default class World {
@@ -7,6 +7,10 @@ export default class World {
 
   constructor() {
     this.world = new CWorld();
+    this.world.broadphase = new NaiveBroadphase();
+    this.world.solver.iterations = 5;
+    this.world.defaultContactMaterial.contactEquationStiffness = 1e6;
+    this.world.defaultContactMaterial.contactEquationRelaxation = 10;
   }
 
   setGravity(x: number, y: number, z: number) {

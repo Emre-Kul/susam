@@ -22,6 +22,7 @@ export default class GameObject {
     this.material = material;
     this.renderer = null;
     this.body = body;
+    this.updateObject(true);
   }
 
   render(scene: Scene) {
@@ -31,10 +32,16 @@ export default class GameObject {
     this.renderer.render();
   }
 
-  public updateObject() {
+  public updateObject(reverse: boolean = false) {
     if (this.body) {
-      const p = this.body.cBody.position;
-      // this.transform.position = new Vector3(p.x, p.y, p.z);
+      const bp = this.body.cBody.position;
+      if (reverse) {
+        this.body.setPosition(this.transform.position);
+        this.body.addShape(this.transform.scale);
+      } else {
+        this.transform.position = new Vector3(bp.x, bp.y, bp.z);
+      }
     }
   }
+
 }

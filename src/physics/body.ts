@@ -4,17 +4,24 @@ export default class Body {
 
   private mass: number;
   private position: Vector3;
-  private shape: any; // will be shape class
   public cBody: CBody;
 
   constructor(mass: number = 0) {
     this.mass = mass;
     this.position = new Vector3();
-    this.shape = null;
     this.cBody = new CBody({
       mass: this.mass,
       position: new Vec3(this.position.x, this.position.y, this.position.z),
-      shape: new Box(new Vec3(this.position.x, this.position.y, this.position.z)),
+      linearDamping: 0,
     });
+
+  }
+
+  public setPosition(vec: Vector3) {
+    this.cBody.position = new Vec3(vec.x, vec.y, vec.z);
+  }
+
+  public addShape(vec: Vector3) {
+    this.cBody.addShape(new Box(new Vec3(vec.x, vec.y, vec.z)));
   }
 }

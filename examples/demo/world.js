@@ -6,12 +6,9 @@ function createGround(game) {
      cube.getMesh(),
      shader,
      new GE.TextureMaterial(game.resourceManager.getTexture("texture-grass")),
-     new GE.Body());
-
+     new GE.Body(0));
    ground.material.applyLighting = false;
    game.addObject(ground);
-
-
 }
 
 function createLight(game) {
@@ -24,7 +21,7 @@ function createLight(game) {
    cube.getMesh(),
    shader,
    new GE.ColorMaterial(color),
-   new GE.Body());
+   new GE.Body(0.001));
  light.material.applyLighting = false;
  game.addObject(light);
 }
@@ -36,10 +33,11 @@ function createRandomObj(game, count) {
   const shader = game.resourceManager.getShader("shader-default");
   color.setRandom();
   const obj = new GE.GameObject(
-    new GE.Transform(new GE.Vector3(Math.random() * 100 - 50, 0, Math.random() * 100 - 50), new GE.Vector3(1, 1, 1)),
+    new GE.Transform(new GE.Vector3(Math.random() * 100 - 50, 100, Math.random() * 100 - 50), new GE.Vector3(1, 1, 1)),
     cube.getMesh(),
     shader,
-    new GE.ColorMaterial(color));
+    new GE.ColorMaterial(color),
+    new GE.Body(0.001));
   obj.material.applyLighting = false;
   game.addObject(obj);
  }

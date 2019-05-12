@@ -43,13 +43,13 @@ export default class Game {
     }
   }
 
-  sortObjectsByCamera(start: number, size: number = this.objects.length) {
+  sortObjectsByCamera(start: number, end: number = this.objects.length) {
     const camPos = this.scene.camera.eye;
-    this.objects = this.objects.slice(0, start).concat(this.objects.slice(start, size).sort((obj1, obj2): any => {
+    this.objects = this.objects.slice(0, start).concat(this.objects.slice(start, end).sort((obj1, obj2): any => {
       const dist1 = Vector3.subtract(obj1.transform.position, camPos).length2();
       const dist2 = Vector3.subtract(obj2.transform.position, camPos).length2();
       return dist2 - dist1;
-    })).concat(this.objects.slice(start + size, this.objects.length - start - size));
+    })).concat(this.objects.slice(end + 1, this.objects.length));
   }
 
   addObject(gameObject: GameObject, id?: string) {
