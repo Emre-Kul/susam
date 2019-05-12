@@ -5,7 +5,7 @@ const G = {
 
 /* CREATION FUNCS */
 function createGame() {
-  const scene = new GE.Scene(new GE.FpsCamera(0.1, new GE.Vector3(0, 0, 5), new GE.Vector3(0, 0, -5)));
+  const scene = new GE.Scene(new GE.FpsCamera(0.1, new GE.Vector3(0, 0.5, 5), new GE.Vector3(0, 0.5, -5)));
   G.game = new GE.Game(scene);
   G.game.init();
   G.game.scene.clear();
@@ -35,24 +35,42 @@ function createObjects() {
 
 function render() {
   moveCamera();
+  controlHit();
   G.game.render();
   G.game.run(render);
 }
 
+
+const controlHit = () => {
+ const id = G.game.world.rayCast(G.game.scene.camera.eye, G.game.scene.camera.target);
+ if(id) {
+  const obj = G.game.getObjectByBodyId(id);
+  const force = GE.Vector3.subtract(G.game.scene.camera.target, G.game.scene.camera.eye);
+  force.multiply(GE.Vector3.create(0.1, 0.1, 0.1));
+  force.normalize();
+  obj.body.applyForce(force, GE.Vector3.create());
+ }
+};
+
 const moveCamera = () => {
  let lx = 0,ly = 0;
  let mx = 0,my = 0;
+ let speed = 0.1;
+
+ if(G.KEY["Shift"]){
+  speed = 1;
+ }
  if(G.KEY["a"]){
-  mx = 0.05;
+  mx = speed;
  }
  if(G.KEY["w"]){
-  my = 0.05;
+  my = speed;
  }
  if(G.KEY["s"]){
-  my = -0.05;
+  my = -speed;
  }
  if(G.KEY["d"]){
-  mx = -0.05;
+  mx = -speed;
  }
  if(G.KEY["ArrowLeft"]){
   lx = 1;
@@ -74,7 +92,7 @@ const moveCamera = () => {
   G.game.sortObjectsByCamera(1);
   const t = G.game.scene.camera.target;
   const e = G.game.scene.camera.eye;
-  console.log(GE.Vector3.subtract(t, e).length2());
+  // console.log(GE.Vector3.subtract(t, e).length2());
  }
 
  // G.game.objects[2].transform.position = G.game.scene.camera.target;

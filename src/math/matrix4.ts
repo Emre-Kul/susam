@@ -68,6 +68,22 @@ export default class Matrix4 {
 
   }
 
+  static multiplyV4(mtr: Matrix4, vec4: Vector4) {
+    const result = [];
+    const v = [vec4.x, vec4.y, vec4.z, vec4.w];
+    let i: number;
+    let j: number;
+    let sum = 0;
+    for (i = 0; i < v.length; i++) {
+      sum = 0.0;
+      for (let j = 0; j < v.length; j++) {
+        sum += mtr.data[i][j] * v[j];
+      }
+      result.push(sum);
+    }
+    return Vector4.create(Vector3.create(result[0], result[1], result[2]), result[3]);
+
+  }
   static flatten(mtr: Matrix4) {
     let arr: any[] = [];
     mtr.data.forEach((elem : any) => {

@@ -6,7 +6,7 @@ export default class Vector4 {
   z: number;
   w: number;
 
-  constructor(vec: Vector3, w:number = 0) {
+  constructor(vec: Vector3 = Vector3.create(), w:number = 0) {
     this.x = vec.x;
     this.y = vec.y;
     this.z = vec.z;

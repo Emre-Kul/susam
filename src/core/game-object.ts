@@ -35,11 +35,15 @@ export default class GameObject {
   public updateObject(reverse: boolean = false) {
     if (this.body) {
       const bp = this.body.cBody.position;
+      // const br = this.body.getRotation();
       if (reverse) {
         this.body.setPosition(this.transform.position);
         this.body.addShape(this.transform.scale);
       } else {
-        this.transform.position = new Vector3(bp.x, bp.y, bp.z);
+        this.transform.position = Vector3.create(bp.x, bp.y, bp.z);
+        // this.transform.rotationAngle = 2 * Math.cos(br.w);
+        // this.transform.rotate = Vector3.create(br.x, br.y, br.z);
+        // console.log(br.w);
       }
     }
   }

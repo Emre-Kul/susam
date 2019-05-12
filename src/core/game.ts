@@ -69,4 +69,15 @@ export default class Game {
     }
   }
 
+  public getObjectByBodyId(id: number) {
+    for (const o of this.objects) {
+      if (o.body) {
+        if (o.body.getId() === id) {
+          return o;
+        }
+      }
+    }
+    return null;
+  }
+
 }
