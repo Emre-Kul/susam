@@ -21,13 +21,13 @@ export default class WebGL {
     this.setup();
 
     this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
-    this.context.enable(this.context.DEPTH_TEST);
     this.context.enable(this.context.CULL_FACE);
+    this.context.enable(this.context.DEPTH_TEST);
     this.context.depthMask(false);
     this.context.clearColor(0.0, 0.0, 0.0, 1.0);
     this.context.clearDepth(1.0);
 
-    // this.context.depthFunc(this.context.LEQUAL);
+    // this.context.depthFunc(this.context.NEVER);
     // this.context.cullFace(this.context.FRONT);
 
   }

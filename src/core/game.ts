@@ -3,6 +3,7 @@ import ResourceManager from './resource-manager';
 import World from '../physics/world';
 import Timer from './timer';
 import GameObject from './game-object';
+import Vector3 from '../math/vector3';
 
 export default class Game {
   public scene: Scene;
@@ -40,6 +41,15 @@ export default class Game {
     for (const gameObject of this.objects) {
       gameObject.render(this.scene);
     }
+  }
+
+  sortObjectsByCamera(start: number, size: number = this.objects.length) {
+    const camPos = this.scene.camera.eye;
+    this.objects = this.objects.slice(0, start).concat(this.objects.slice(start, size).sort((obj1, obj2): any => {
+      const dist1 = Vector3.subtract(obj1.transform.position, camPos).length2();
+      const dist2 = Vector3.subtract(obj2.transform.position, camPos).length2();
+      return dist2 - dist1;
+    })).concat(this.objects.slice(start + size, this.objects.length - start - size));
   }
 
   addObject(gameObject: GameObject, id?: string) {
