@@ -23,20 +23,24 @@ function loadResources() {
   G.game.resourceManager.loadObject("obj-cube", "assets/objects/cube.obj");
   G.game.resourceManager.loadObject("obj-teapot", "assets/objects/teapot.obj");
   G.game.resourceManager.loadObject("obj-elephant", "assets/objects/elephant.obj");
+  G.game.resourceManager.loadObject("obj-skybox", "assets/objects/skybox.obj");
   G.game.resourceManager.loadTexture("texture-cube1", "assets/img/cube1.png");
   G.game.resourceManager.loadTexture("texture-cube2", "assets/img/cube2.jpg");
   G.game.resourceManager.loadTexture("texture-cube3", "assets/img/cube3.jpg");
   G.game.resourceManager.loadTexture("texture-grass", "assets/img/grass.jpg");
   G.game.resourceManager.loadTexture("texture-ytu", "assets/img/ytu.jpg");
+  G.game.resourceManager.loadTexture("texture-skybox", "assets/img/skybox-large.png");
+  G.game.resourceManager.loadTexture("texture-ground", "assets/img/ground2.jpg");
 }
 
 function createObjects() {
+ createSkybox(G.game);
  createGround(G.game);
  createRandomObj(G.game);
  createLight(G.game);
  createTeaPot(G.game);
  createElephant(G.game);
- G.game.sortObjectsByCamera(1);
+ G.game.sortObjectsByCamera(2);
 }
 
 function render() {
@@ -95,7 +99,7 @@ const moveCamera = () => {
   G.game.scene.camera.point(lx, ly);
   G.game.scene.camera.moveForward(my);
   G.game.scene.camera.moveSide(mx);
-  G.game.sortObjectsByCamera(1);
+  G.game.sortObjectsByCamera(2);
   const t = G.game.scene.camera.target;
   const e = G.game.scene.camera.eye;
   // console.log(GE.Vector3.subtract(t, e).length2());

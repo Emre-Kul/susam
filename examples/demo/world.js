@@ -1,14 +1,25 @@
 function createGround(game) {
- const cube = new GE.CubeGeometry(1000.0);
+ const cube = new GE.CubeGeometry(500.0);
  const shader = game.resourceManager.getShader("shader-default");
  const ground = new GE.GameObject(
      new GE.Transform(new GE.Vector3(0, -1, 0), new GE.Vector3(1000, 0.1, 1000)),
      cube.getMesh(),
      shader,
-     new GE.TextureMaterial(game.resourceManager.getTexture("texture-grass")),
+     new GE.TextureMaterial(game.resourceManager.getTexture("texture-ground")),
      new GE.Body(0));
    ground.material.applyLighting = false;
    game.addObject(ground);
+}
+
+function createSkybox(game) {
+ const mesh = game.resourceManager.getObject("obj-skybox");
+ const shader = game.resourceManager.getShader("shader-default");
+ const obj = new GE.GameObject(
+   new GE.Transform(new GE.Vector3(0, 1000, 0), new GE.Vector3(1000, 1000, 1000)),
+   mesh,
+   shader,
+   new GE.TextureMaterial(game.resourceManager.getTexture("texture-skybox")));
+ game.addObject(obj);
 }
 
 function createLight(game) {
