@@ -1,7 +1,6 @@
 import GameObject from './game-object';
 import Scene from './scene';
 import Matrix4 from '../math/matrix4';
-import Vector3 from '../math/vector3';
 import { COLORING_TYPE } from './enums';
 import ColorMaterial from '../graphics/color-material';
 import TextureMaterial from '../graphics/texture-material';
@@ -32,7 +31,7 @@ export default class MeshRenderer {
   }
 
   render() {
-    if (!this.gameObject.shader.ready) return;
+    if (!this.gameObject.shader.ready || !this.gameObject.mesh.ready) return;
     if (!this.program) this.init();
     this.scene.gl.context.useProgram(this.program);
     this.bindBuffers();
@@ -66,20 +65,27 @@ export default class MeshRenderer {
   }
 
   private initBuffers() {
+    console.log('Emre Kul');
+    console.log(this.gameObject.mesh);
     /* VERTEX */
     this.bufferIds['VERTEX'] = this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.vertices));
     this.scene.gl.context.vertexAttribPointer(this.location.aPosition, 3, this.scene.gl.context.FLOAT, false, 0, 0);
     this.scene.gl.context.enableVertexAttribArray(this.location.aPosition);
 
-    /* TEXTURE */
-    this.bufferIds['TEXTURE'] = this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.textureVertices));
-    this.scene.gl.context.vertexAttribPointer(this.location.aTexture, 2, this.scene.gl.context.FLOAT, false, 0, 0);
-    this.scene.gl.context.enableVertexAttribArray(this.location.aTexture);
+    if (this.gameObject.mesh.textureVertices.length > 0) {
+      /* TEXTURE */
+      this.bufferIds['TEXTURE'] = this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.textureVertices));
+      this.scene.gl.context.vertexAttribPointer(this.location.aTexture, 2, this.scene.gl.context.FLOAT, false, 0, 0);
+      this.scene.gl.context.enableVertexAttribArray(this.location.aTexture);
+    }
 
-    /* NORMAL */
-    this.bufferIds['NORMAL'] = this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.normals));
-    this.scene.gl.context.vertexAttribPointer(this.location.aNormal, 3, this.scene.gl.context.FLOAT, false, 0, 0);
-    this.scene.gl.context.enableVertexAttribArray(this.location.aNormal);
+    if (this.gameObject.mesh.normals.length > 0) {
+      /* NORMAL */
+      this.bufferIds['NORMAL'] = this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.normals));
+      this.scene.gl.context.vertexAttribPointer(this.location.aNormal, 3, this.scene.gl.context.FLOAT, false, 0, 0);
+      this.scene.gl.context.enableVertexAttribArray(this.location.aNormal);
+
+    }
 
     /* INDEX */
     this.bufferIds['INDEX'] = this.scene.gl.bindBufferData('ELEMENT_ARRAY_BUFFER', new Uint16Array(this.gameObject.mesh.indices));
@@ -87,20 +93,27 @@ export default class MeshRenderer {
   }
 
   private bindBuffers() {
+    this.scene.gl.context.disableVertexAttribArray(this.location.aPosition);
+    this.scene.gl.context.disableVertexAttribArray(this.location.aTexture);
+    this.scene.gl.context.disableVertexAttribArray(this.location.aNormal);
     /* VERTEX */
     this.scene.gl.context.bindBuffer(this.scene.gl.context['ARRAY_BUFFER'], this.bufferIds['VERTEX']);
     this.scene.gl.context.vertexAttribPointer(this.location.aPosition, 3, this.scene.gl.context.FLOAT, false, 0, 0);
     this.scene.gl.context.enableVertexAttribArray(this.location.aPosition);
 
-    /* TEXTURE */
-    this.scene.gl.context.bindBuffer(this.scene.gl.context['ARRAY_BUFFER'], this.bufferIds['TEXTURE']);
-    this.scene.gl.context.vertexAttribPointer(this.location.aTexture, 2, this.scene.gl.context.FLOAT, false, 0, 0);
-    this.scene.gl.context.enableVertexAttribArray(this.location.aTexture);
+    if (this.gameObject.mesh.textureVertices.length > 0) {
+      /* TEXTURE */
+      this.scene.gl.context.bindBuffer(this.scene.gl.context['ARRAY_BUFFER'], this.bufferIds['TEXTURE']);
+      this.scene.gl.context.vertexAttribPointer(this.location.aTexture, 2, this.scene.gl.context.FLOAT, false, 0, 0);
+      this.scene.gl.context.enableVertexAttribArray(this.location.aTexture);
+    }
 
-    /* NORMAL */
-    this.scene.gl.context.bindBuffer(this.scene.gl.context['ARRAY_BUFFER'], this.bufferIds['NORMAL']);
-    this.scene.gl.context.vertexAttribPointer(this.location.aNormal, 3, this.scene.gl.context.FLOAT, false, 0, 0);
-    this.scene.gl.context.enableVertexAttribArray(this.location.aNormal);
+    if (this.gameObject.mesh.normals.length > 0) {
+      /* NORMAL */
+      this.scene.gl.context.bindBuffer(this.scene.gl.context['ARRAY_BUFFER'], this.bufferIds['NORMAL']);
+      this.scene.gl.context.vertexAttribPointer(this.location.aNormal, 3, this.scene.gl.context.FLOAT, false, 0, 0);
+      this.scene.gl.context.enableVertexAttribArray(this.location.aNormal);
+    }
 
     /* INDEX */
     this.scene.gl.context.bindBuffer(this.scene.gl.context['ELEMENT_ARRAY_BUFFER'], this.bufferIds['INDEX']);

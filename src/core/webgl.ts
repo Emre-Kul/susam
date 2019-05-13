@@ -27,6 +27,10 @@ export default class WebGL {
     this.context.clearColor(0.0, 0.0, 0.0, 1.0);
     this.context.clearDepth(1.0);
 
+    this.context.texParameteri(this.context.TEXTURE_CUBE_MAP, this.context.TEXTURE_MAG_FILTER, this.context.LINEAR);
+    this.context.texParameteri(this.context.TEXTURE_CUBE_MAP, this.context.TEXTURE_MIN_FILTER, this.context.LINEAR);
+    this.context.texParameteri(this.context.TEXTURE_CUBE_MAP, this.context.TEXTURE_WRAP_S, this.context.CLAMP_TO_EDGE);
+    this.context.texParameteri(this.context.TEXTURE_CUBE_MAP, this.context.TEXTURE_WRAP_T, this.context.CLAMP_TO_EDGE);
     // this.context.depthFunc(this.context.NEVER);
     // this.context.cullFace(this.context.FRONT);
 

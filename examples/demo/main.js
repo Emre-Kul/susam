@@ -20,16 +20,22 @@ function createListeners() {
 
 function loadResources() {
   G.game.resourceManager.loadShader("shader-default", "assets/shaders/");
-  G.game.resourceManager.loadTexture("texture-cube1", "assets/cube1.png");
-  G.game.resourceManager.loadTexture("texture-cube2", "assets/cube2.jpg");
-  G.game.resourceManager.loadTexture("texture-skybox", "assets/skybox.jpg");
-  G.game.resourceManager.loadTexture("texture-grass", "assets/grass.jpg");
+  G.game.resourceManager.loadObject("obj-cube", "assets/objects/cube.obj");
+  G.game.resourceManager.loadObject("obj-teapot", "assets/objects/teapot.obj");
+  G.game.resourceManager.loadObject("obj-elephant", "assets/objects/elephant.obj");
+  G.game.resourceManager.loadTexture("texture-cube1", "assets/img/cube1.png");
+  G.game.resourceManager.loadTexture("texture-cube2", "assets/img/cube2.jpg");
+  G.game.resourceManager.loadTexture("texture-cube3", "assets/img/cube3.jpg");
+  G.game.resourceManager.loadTexture("texture-grass", "assets/img/grass.jpg");
+  G.game.resourceManager.loadTexture("texture-ytu", "assets/img/ytu.jpg");
 }
 
 function createObjects() {
  createGround(G.game);
- createRandomObj(G.game, 100);
+ createRandomObj(G.game);
  createLight(G.game);
+ createTeaPot(G.game);
+ createElephant(G.game);
  G.game.sortObjectsByCamera(1);
 }
 

@@ -3,6 +3,7 @@ export default class Mesh {
   public indices: number[];
   public textureVertices: number[];
   public normals: number[];
+  public ready: boolean;
 
   constructor(vertices: number[] = [],
               indices: number[] = [],
@@ -12,6 +13,7 @@ export default class Mesh {
     this.indices = indices;
     this.textureVertices = textureVertices;
     this.normals = normals;
+    this.ready = true;
   }
 
   static merge(meshes: Mesh[]) {

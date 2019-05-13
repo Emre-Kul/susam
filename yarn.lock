@@ -3298,6 +3298,11 @@ watchpack@^1.5.0:
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
 
+webgl-obj-loader@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/webgl-obj-loader/-/webgl-obj-loader-2.0.3.tgz#994c539904e4d0350aa138a215faeb38c2e4720f"
+  integrity sha512-hMCkwfue8NcpyuZhjdAak/9YesnyroaklglHirTovSKPJbRxCqbyI5KzgDnhhOOpRaiCUdbmiwvfj1RrqRLJPg==
+
 webpack-cli@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.2.1.tgz#779c696c82482491f0803907508db2e276ed3b61"

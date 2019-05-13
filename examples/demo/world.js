@@ -17,16 +17,16 @@ function createLight(game) {
  const shader = game.resourceManager.getShader("shader-default");
  color.setWhite();
  const light = new GE.GameObject(
-   new GE.Transform(),
+   new GE.Transform(GE.Vector3.create(0, 2, 0)),
    cube.getMesh(),
    shader,
    new GE.ColorMaterial(color),
-   new GE.Body(0.001));
+   new GE.Body());
  light.material.applyLighting = false;
  game.addObject(light);
 }
 
-function createRandomObj(game, count = 50, area = 100) {
+function createRandomObj(game, count = 100, area = 100) {
  for(let i = 0;i < count;i++) {
   const cube = new GE.CubeGeometry();
   const color = new GE.Color();
@@ -36,8 +36,42 @@ function createRandomObj(game, count = 50, area = 100) {
     new GE.Transform(new GE.Vector3(Math.random() * area - area / 2, 10, Math.random() * area - area / 2), new GE.Vector3(1, 1, 1)),
     cube.getMesh(),
     shader,
-    (i % 2 == 0) ? new GE.TextureMaterial(game.resourceManager.getTexture(randomTexture())) : new GE.ColorMaterial(color),
-    new GE.Body(0.001));
+    (i % 2 === 0) ? new GE.TextureMaterial(game.resourceManager.getTexture(randomTexture())) : new GE.ColorMaterial(color),
+    new GE.Body(0.01));
+  // obj.material.applyLighting = false;
+  game.addObject(obj);
+ }
+}
+
+function createTeaPot(game) {
+ const mesh = game.resourceManager.getObject("obj-teapot");
+ const shader = game.resourceManager.getShader("shader-default");
+ const color = new GE.Color();
+ const obj = new GE.GameObject(
+   new GE.Transform(new GE.Vector3(0, 2, 0), new GE.Vector3(0.01, 0.01, 0.01)),
+   mesh,
+   shader,
+   // new GE.ColorMaterial(color),
+   new GE.TextureMaterial(game.resourceManager.getTexture("texture-grass")),
+   new GE.Body());
+ obj.material.applyLighting = false;
+ game.addObject(obj);
+}
+
+
+
+function createElephant(game, count = 50) {
+ for(let i = 0;i < count;i++) {
+  const color = new GE.Color();
+  color.setRed();
+  const mesh = game.resourceManager.getObject("obj-elephant");
+  const shader = game.resourceManager.getShader("shader-default");
+  const obj = new GE.GameObject(
+    new GE.Transform(new GE.Vector3(i * 5 - (count * 5) / 2, 0, -100), new GE.Vector3(3, 3, 3), new GE.Vector3(0, 18, 0)),
+    mesh,
+    shader,
+    new GE.ColorMaterial(color),
+    new GE.Body());
   obj.material.applyLighting = false;
   game.addObject(obj);
  }
