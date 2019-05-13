@@ -24,6 +24,7 @@ function loadResources() {
   G.game.resourceManager.loadObject("obj-teapot", "assets/objects/teapot.obj");
   G.game.resourceManager.loadObject("obj-elephant", "assets/objects/elephant.obj");
   G.game.resourceManager.loadObject("obj-skybox", "assets/objects/skybox.obj");
+  G.game.resourceManager.loadObject("obj-sphere", "assets/objects/sphere.obj");
   G.game.resourceManager.loadTexture("texture-cube1", "assets/img/cube1.png");
   G.game.resourceManager.loadTexture("texture-cube2", "assets/img/cube2.jpg");
   G.game.resourceManager.loadTexture("texture-cube3", "assets/img/cube3.jpg");

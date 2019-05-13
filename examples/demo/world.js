@@ -1,3 +1,7 @@
+const OPT = {};
+
+OPT.LIGHT_POS = GE.Vector3.create(100, 10, -100);
+
 function createGround(game) {
  const cube = new GE.CubeGeometry(500.0);
  const shader = game.resourceManager.getShader("shader-default");
@@ -23,17 +27,17 @@ function createSkybox(game) {
 }
 
 function createLight(game) {
- const cube = new GE.CubeGeometry();
- const color = new GE.Color();
+ const mesh = game.resourceManager.getObject("obj-sphere");
  const shader = game.resourceManager.getShader("shader-default");
+ const color = new GE.Color();
  color.setWhite();
  const light = new GE.GameObject(
-   new GE.Transform(GE.Vector3.create(0, 2, 0)),
-   cube.getMesh(),
+   new GE.Transform(OPT.LIGHT_POS),
+   mesh,
    shader,
-   new GE.ColorMaterial(color),
-   new GE.Body());
+   new GE.ColorMaterial(color));
  light.material.applyLighting = false;
+ game.scene.light.position = OPT.LIGHT_POS;
  game.addObject(light);
 }
 
@@ -57,12 +61,10 @@ function createRandomObj(game, count = 100, area = 100) {
 function createTeaPot(game) {
  const mesh = game.resourceManager.getObject("obj-teapot");
  const shader = game.resourceManager.getShader("shader-default");
- const color = new GE.Color();
  const obj = new GE.GameObject(
-   new GE.Transform(new GE.Vector3(0, 2, 0), new GE.Vector3(0.01, 0.01, 0.01)),
+   new GE.Transform(OPT.LIGHT_POS, new GE.Vector3(0.01, 0.01, 0.01)),
    mesh,
    shader,
-   // new GE.ColorMaterial(color),
    new GE.TextureMaterial(game.resourceManager.getTexture("texture-grass")),
    new GE.Body());
  obj.material.applyLighting = false;
@@ -83,7 +85,7 @@ function createElephant(game, count = 50) {
     shader,
     new GE.ColorMaterial(color),
     new GE.Body());
-  obj.material.applyLighting = false;
+  // obj.material.applyLighting = false;
   game.addObject(obj);
  }
 }
