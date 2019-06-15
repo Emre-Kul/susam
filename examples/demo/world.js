@@ -41,7 +41,7 @@ function createLight(game) {
  game.addObject(light);
 }
 
-function createRandomObj(game, count = 100, area = 100) {
+function createRandomObj(game, count = 50, area = 100) {
  for(let i = 0;i < count;i++) {
   const cube = new GE.CubeGeometry();
   const color = new GE.Color();
@@ -73,14 +73,14 @@ function createTeaPot(game) {
 
 
 
-function createElephant(game, count = 50) {
+function createElephant(game, count = 10) {
  for(let i = 0;i < count;i++) {
   const color = new GE.Color();
   color.setRed();
   const mesh = game.resourceManager.getObject("obj-elephant");
   const shader = game.resourceManager.getShader("shader-default");
   const obj = new GE.GameObject(
-    new GE.Transform(new GE.Vector3(i * 5 - (count * 5) / 2, 0, -100), new GE.Vector3(3, 3, 3), new GE.Vector3(0, 18, 0)),
+    new GE.Transform(new GE.Vector3(i * 10 - (count * 10) / 2, 0, -100), new GE.Vector3(3, 3, 3), new GE.Vector3(0, 18, 0)),
     mesh,
     shader,
     new GE.ColorMaterial(color),

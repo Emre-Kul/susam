@@ -54,10 +54,10 @@ export default class CubeGeometry extends Geometry{
 
     const textureVertices: number[] = [
       // Front face
-      0.0, 0.0,
-      this.textureSize, 0.0,
-      this.textureSize, this.textureSize,
       0.0, this.textureSize,
+      this.textureSize, this.textureSize,
+      this.textureSize, 0.0,
+      0.0, 0.0,
 
       // Back face
       this.textureSize, 0.0,

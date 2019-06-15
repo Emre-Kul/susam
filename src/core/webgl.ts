@@ -24,8 +24,7 @@ export default class WebGL {
     this.context.enable(this.context.CULL_FACE);
     this.context.enable(this.context.DEPTH_TEST);
     this.context.depthMask(false);
-    this.context.clearColor(0.0, 0.0, 0.0, 1.0);
-    this.context.clearDepth(1.0);
+
 
     this.context.texParameteri(this.context.TEXTURE_CUBE_MAP, this.context.TEXTURE_MAG_FILTER, this.context.LINEAR);
     this.context.texParameteri(this.context.TEXTURE_CUBE_MAP, this.context.TEXTURE_MIN_FILTER, this.context.LINEAR);
@@ -37,6 +36,8 @@ export default class WebGL {
   }
 
   clear() {
+    this.context.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.context.clearDepth(1.0);
     this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
   }
 
