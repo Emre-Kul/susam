@@ -65,8 +65,6 @@ export default class MeshRenderer {
   }
 
   private initBuffers() {
-    console.log('Emre Kul');
-    console.log(this.gameObject.mesh);
     /* VERTEX */
     this.bufferIds['VERTEX'] = this.scene.gl.bindBufferData('ARRAY_BUFFER', new Float32Array(this.gameObject.mesh.vertices));
     this.scene.gl.context.vertexAttribPointer(this.location.aPosition, 3, this.scene.gl.context.FLOAT, false, 0, 0);

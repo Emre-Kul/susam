@@ -17,23 +17,19 @@ export default class FpsCamera extends Camera{
   }
 
   point(yaw: number, pitch: number) {
-    this.yaw += yaw * this.sensitivity;
-    this.pitch += pitch * this.sensitivity;
-    /*
+    this.yaw += yaw * this.sensitivity * 180 / Math.PI;
+    this.pitch += pitch * this.sensitivity * 180 / Math.PI;
+
     if (this.pitch > 89.9) {
       this.pitch = 89.9;
     }
-    if (this.pitch < 0) {
-      this.pitch = 0;
+    else if (this.pitch < -89.9) {
+      this.pitch = -89.9;
     }
-    */
-    this.yaw = this.yaw % 360;
-    this.pitch = this.pitch % 90;
-
     const rx = Matrix4.create();
     const ry = Matrix4.create();
     ry.rotateY(yaw);
-    // rx.rotateX(pitch);
+    rx.rotateX(pitch);
     let direction = Vector3.subtract(this.target, this.eye);
     direction = Matrix4.multiplyV3(Matrix4.multiply(ry, rx), direction);
     direction.add(this.eye);

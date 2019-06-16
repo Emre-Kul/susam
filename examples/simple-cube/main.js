@@ -11,6 +11,7 @@ function createGame() {
  G.game = new GE.Game(scene);
  G.game.init();
  G.game.scene.clear();
+ G.game.scene.light.position = GE.Vector3.create(0, 0, 20);
 }
 
 function createListeners() {

@@ -57,7 +57,7 @@ const controlHit = () => {
  if(id) {
   const obj = G.game.getObjectByBodyId(id);
   const force = GE.Vector3.subtract(G.game.scene.camera.target, G.game.scene.camera.eye);
-  force.multiply(GE.Vector3.create(0.1, 0.1, 0.1));
+  force.multiply(GE.Vector3.create(0.1, 0, 0.1));
   force.normalize();
   obj.body.applyForce(force, GE.Vector3.create());
  }
